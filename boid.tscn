@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://t7ygvn2r70k7"]
+
+[ext_resource type="Script" uid="uid://et3m5gnqgxja" path="res://boid.gd" id="1_xur1n"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_un08l"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_un08l"]
+
+[node name="Boid" type="CharacterBody3D" unique_id=1807621701]
+script = ExtResource("1_xur1n")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=603293540]
+shape = SubResource("BoxShape3D_un08l")
+debug_color = Color(18.328726, 0, 9.243387, 1)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D" unique_id=1421480357]
+mesh = SubResource("BoxMesh_un08l")
+
+[node name="bLabel" type="Label3D" parent="CollisionShape3D/MeshInstance3D" unique_id=395443958]
+transform = Transform3D(1, 0, 0, 0, 0.004900204, 0.999988, 0, -0.999988, 0.004900204, -0.001636371, 0.5015778, 0)
+text = "Boid: "
+font_size = 60

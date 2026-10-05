@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://ytodv04oaor"]
+
+[ext_resource type="Script" uid="uid://creyoy7ypt08w" path="res://unit.gd" id="1_btf8p"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_un08l"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_3pcld"]
+
+[node name="Unit" type="CharacterBody3D" unique_id=1300394952]
+script = ExtResource("1_btf8p")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1151404491]
+shape = SubResource("SphereShape3D_un08l")
+debug_color = Color(0.36862746, 0.47843137, 1, 1)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D" unique_id=835088675]
+mesh = SubResource("SphereMesh_3pcld")
