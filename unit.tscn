@@ -4,14 +4,22 @@
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_un08l"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_btf8p"]
+albedo_color = Color(1, 0, 0.03529412, 0.14509805)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ctwoc"]
+
 [sub_resource type="SphereMesh" id="SphereMesh_3pcld"]
+material = SubResource("StandardMaterial3D_ctwoc")
 
 [node name="Unit" type="CharacterBody3D" unique_id=1300394952]
 script = ExtResource("1_btf8p")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1151404491]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
 shape = SubResource("SphereShape3D_un08l")
 debug_color = Color(0.36862746, 0.47843137, 1, 1)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D" unique_id=835088675]
+material_override = SubResource("StandardMaterial3D_btf8p")
 mesh = SubResource("SphereMesh_3pcld")

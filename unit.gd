@@ -8,16 +8,16 @@ var startingBoids
 #max distance from the average position between boids
 var cohesion
 
-func _init(_boids: int =10, _cohesion: float = 3):
+func _init(_boids: int =30, _cohesion: float = 3):
 	startingBoids=_boids
 	cohesion=_cohesion
 
 func _calc_average_pos() -> Vector3:
-	var pos_total: Vector3 =  Vector3(0.0, 0.0, 0.0)
+	var pos_total: Vector3 = Vector3.ZERO
 	for boid in boidArray:
-		pos_total = boid.position + pos_total
-	var pos = Vector3(pos_total.x/boidArray.size(),pos_total.y/boidArray.size(),pos_total.z/boidArray.size())
-	return pos
+		pos_total += boid.global_position
+	pos_total/= boidArray.size()
+	return pos_total.snapped(Vector3(0.001,0.001,0.001))
 
 func _spawn_boid(newPosition: Vector3, id: int) -> void:
 	var scene: PackedScene = load("res://boid.tscn")
@@ -29,6 +29,8 @@ func _spawn_boid(newPosition: Vector3, id: int) -> void:
 	
 	instance.position = newPosition
 	instance.setup(id)
+	
+	instance.name = "Boid"+str(id)
 	add_child(instance)
 	boidArray.push_back(instance)
 	pass
@@ -36,27 +38,46 @@ func _spawn_boid(newPosition: Vector3, id: int) -> void:
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	
-	print_debug("	-Boids To Spawn: ", startingBoids)
-	
 	var x
 	var z
 	var angle_step = 2*3.14/startingBoids
 	var angle
 	for i in range(startingBoids):
-		#Calculate position around the unit Node3d
 		angle=i*angle_step
 		x=cohesion*cos(angle)
 		z=cohesion*sin(angle)
 		var pos: Vector3 = Vector3(position.x+x, position.y, position.z+z)
 		
 		_spawn_boid(pos, i)
-		print("		-Spawned Boids")
-	pass # Replace with function body.
+	pass 
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	position = _calc_average_pos()
+
+	
+	var target_center = _calc_average_pos()
+	
+	var position_offset = target_center - global_position
+	
+	global_position = target_center
+
 	for boid in boidArray:
-		boid.position.z-= 0.02
+		boid.global_position -= position_offset
+		var distance = boid.global_position.distance_to(global_position)
+		
+		var mesh_node = boid.get_node("CollisionShape3D/MeshInstance3D") as MeshInstance3D
+		
+		var mat = mesh_node.get_active_material(0) as StandardMaterial3D		
+		if mat and not mesh_node.has_meta("material_duplicated"):
+			mat = mat.duplicate()
+			mesh_node.set_surface_override_material(0, mat)
+			mesh_node.set_meta("material_duplicated", true)
+
+		if mat:
+			if distance > cohesion:
+				mat.albedo_color = Color(1, 0, 0) 
+			else:
+				mat.albedo_color = Color(0, 0, 1) 
+
 	pass

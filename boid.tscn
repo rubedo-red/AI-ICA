@@ -4,19 +4,30 @@
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_un08l"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ctwoc"]
+resource_local_to_scene = true
+albedo_color = Color(0, 1, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2wjsd"]
+resource_local_to_scene = true
+
 [sub_resource type="BoxMesh" id="BoxMesh_un08l"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_2wjsd")
 
 [node name="Boid" type="CharacterBody3D" unique_id=1807621701]
 script = ExtResource("1_xur1n")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=603293540]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
 shape = SubResource("BoxShape3D_un08l")
 debug_color = Color(18.328726, 0, 9.243387, 1)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D" unique_id=1421480357]
+material_override = SubResource("StandardMaterial3D_ctwoc")
 mesh = SubResource("BoxMesh_un08l")
 
 [node name="bLabel" type="Label3D" parent="CollisionShape3D/MeshInstance3D" unique_id=395443958]
-transform = Transform3D(1, 0, 0, 0, 0.004900204, 0.999988, 0, -0.999988, 0.004900204, -0.001636371, 0.5015778, 0)
+transform = Transform3D(5, 0, 0, 0, 0.024500769, 4.99994, 0, -4.99994, 0.024500769, -0.001636371, 0.72008836, 0)
 text = "Boid: "
 font_size = 60
