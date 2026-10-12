@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://qwr66yprcsrl"]
+
+[ext_resource type="Script" uid="uid://df8428mg7aq8e" path="res://shared/map.gd" id="1_f4d1s"]
+
+[node name="Map" type="Node3D" unique_id=829619776]
+script = ExtResource("1_f4d1s")
+metadata/width = 10
+metadata/height = 10
