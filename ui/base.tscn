@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://deucpf41g1x1m"]
+
+[ext_resource type="Script" uid="uid://d0flycjimcjet" path="res://ui/base.gd" id="1_k0c5o"]
+[ext_resource type="PackedScene" uid="uid://c2pdhrwhqylxq" path="res://ui/creep_picker.tscn" id="2_3u66d"]
+
+[node name="Base" type="CanvasLayer" unique_id=1292193737 node_paths=PackedStringArray("creep_picker")]
+script = ExtResource("1_k0c5o")
+creep_picker = NodePath("CreepPicker")
+
+[node name="CreepPicker" parent="." unique_id=394177296 instance=ExtResource("2_3u66d")]

@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://cnbev74f4sitl"
+path="res://.godot/imported/creep_base_node_icon.png-bc95dfbb2092397f6f69126939cf08c0.image"
+
+[deps]
+
+source_file="res://ui/creep_picker/creep_base_node_icon.png"
+dest_files=["res://.godot/imported/creep_base_node_icon.png-bc95dfbb2092397f6f69126939cf08c0.image"]
+
+[params]
+

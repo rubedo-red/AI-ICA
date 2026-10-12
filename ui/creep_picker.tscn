@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://c2pdhrwhqylxq"]
+
+[ext_resource type="Script" uid="uid://dqqbi56xp52xt" path="res://ui/creep_picker.gd" id="1_j3csa"]
+[ext_resource type="PackedScene" uid="uid://biehan7hmf8ui" path="res://ui/creep_picker/creep_1.tscn" id="1_oecsr"]
+[ext_resource type="PackedScene" uid="uid://o3xmmk1wy0bb" path="res://ui/creep_picker/creep_2.tscn" id="2_j3csa"]
+
+[node name="CreepPicker" type="Control" unique_id=394177296]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_j3csa")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=28051586]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 128.0
+offset_bottom = 648.0
+grow_vertical = 2
+
+[node name="Creep1Container" parent="VBoxContainer" unique_id=362059242 instance=ExtResource("1_oecsr")]
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer" unique_id=682924700]
+layout_mode = 2
+
+[node name="Creep2Container" parent="VBoxContainer" unique_id=704462702 instance=ExtResource("2_j3csa")]
+layout_mode = 2
+
+[connection signal="gui_input" from="VBoxContainer" to="." method="_on_v_box_container_gui_input"]
