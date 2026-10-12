@@ -1,4 +1,4 @@
-extends Node
+extends Node3D
 
 enum terrain_types { land, water, mountain }
 
@@ -7,12 +7,17 @@ enum terrain_types { land, water, mountain }
 var cells : PackedByteArray = [0]
 @export var cell_size: float = 2.0
 
-func transform_to_tile(transform: Transform3D):
-	var position = transform.basis.x
-	var relative = position - transform.basis.x
-	var x = int(floor(relative.x/(width*cell_size)-((width/2)*cell_size)))
-	var y = int(floor(relative.y/(height*cell_size)-((height/2)*cell_size)))
-	return x + y*width
+func pos_to_tile(pos: Vector3):
+	var relative = global_position - pos
+	relative.x = relative.x+(width*cell_size)/2
+	relative.y = relative.y+(height*cell_size)/2
+	print(relative)
+	var x = int(floor((width*cell_size)/relative.x))
+	var y = int(floor((height*cell_size)/relative.y))
+	return [x, y]
+
+func get_tile_index(x: int, y: int):
+	return cells[x+y*width]
 
 func generate_terrain():
 	for i in width:

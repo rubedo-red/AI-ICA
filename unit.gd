@@ -60,6 +60,8 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 
 	#print(map.transform_to_tile(transform))
+	var t = map.pos_to_tile(global_position)
+	
 	var target_center = _calc_average_pos()
 	
 	var position_offset = target_center - global_position
