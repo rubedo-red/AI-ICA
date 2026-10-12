@@ -5,7 +5,7 @@
 [sub_resource type="SphereShape3D" id="SphereShape3D_un08l"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_btf8p"]
-albedo_color = Color(1, 0, 0.03529412, 0.14509805)
+albedo_color = Color(1, 0, 1, 0.14509805)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ctwoc"]
 
@@ -16,7 +16,7 @@ material = SubResource("StandardMaterial3D_ctwoc")
 script = ExtResource("1_btf8p")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1151404491]
-transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
+transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0, 0, 0)
 shape = SubResource("SphereShape3D_un08l")
 debug_color = Color(0.36862746, 0.47843137, 1, 1)
 

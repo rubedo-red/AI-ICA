@@ -18,7 +18,7 @@ func setup( boid_id : int = 0, boid_cohesion_strength : float = 0.25,boid_cohesi
 func _random_move(delta:float):
 	global_position.x += randf_range(-1,1)* delta
 	#global_position.y += randf_range(-1,1)* delta
-	global_position.z += randf_range(-1,1)* delta
+	global_position.z += randf_range(-1,1.3)* delta
 
 # keeps all boids within range of one another by using their average position and pulling them back when they leave the cohesion bubble
 func _cohesion_test(dist : float, parent_pos: Vector3, delta:float ) ->void:
@@ -26,11 +26,10 @@ func _cohesion_test(dist : float, parent_pos: Vector3, delta:float ) ->void:
 		var direction = (parent_pos - global_position).normalized()
 		global_position += direction * pullStrength * delta
 
-func _alignment_test():
-	print()
+#func _alignment_test():
+	
 
 func _seperation_test(delta : float):
-	print()
 	var boids =get_parent_node_3d().get_children()
 	for boid in boids:
 		if name == boid.name:

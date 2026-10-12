@@ -10,10 +10,10 @@ var cells : PackedByteArray = [0]
 func pos_to_tile(pos: Vector3):
 	var relative = global_position - pos
 	relative.x = relative.x+(width*cell_size)/2
-	relative.y = relative.y+(height*cell_size)/2
-	print(relative)
-	var x = int(floor((width*cell_size)/relative.x))
-	var y = int(floor((height*cell_size)/relative.y))
+	relative.z = relative.z+(height*cell_size)/2
+	var x = int(floor(relative.x/cell_size))
+	var y = int(floor(relative.z/cell_size))
+
 	return [x, y]
 
 func get_tile_index(x: int, y: int):
@@ -23,6 +23,7 @@ func generate_terrain():
 	for i in width:
 		for j in height:
 			var tile = MeshInstance3D.new()
+			tile.name = "tile-"+str(i)+"_"+str(j)
 			self.add_child(tile)
 			var plane = PlaneMesh.new()
 			plane.size.x = cell_size
@@ -46,7 +47,6 @@ func resize(w: int, h: int) -> void:
 	height = h
 	cells.resize(w*h)
 	cells.fill(0)
-	generate_terrain()
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

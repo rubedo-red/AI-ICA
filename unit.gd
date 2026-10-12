@@ -39,9 +39,7 @@ func _spawn_boid(newPosition: Vector3, id: int) -> void:
 	pass
 
 # Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	
-	
+func _ready() -> void:	
 	var x
 	var z
 	var angle_step = 2*3.14/startingBoids
@@ -58,9 +56,12 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-
-	#print(map.transform_to_tile(transform))
+	
 	var t = map.pos_to_tile(global_position)
+	print(" - x: ",t[0],", z: ", t[1])
+	
+	print(map.get_tile_index(t[0],t[1]))
+	
 	
 	var target_center = _calc_average_pos()
 	
