@@ -8,6 +8,9 @@ var startingBoids
 #max distance from the average position between boids
 var cohesion
 
+
+@export var map: Node3D
+
 func _init(_boids: int =30, _cohesion: float = 3):
 	startingBoids=_boids
 	cohesion=_cohesion
@@ -38,6 +41,7 @@ func _spawn_boid(newPosition: Vector3, id: int) -> void:
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	
+	
 	var x
 	var z
 	var angle_step = 2*3.14/startingBoids
@@ -55,7 +59,7 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 
-	
+	print(map.transform_to_tile(transform))
 	var target_center = _calc_average_pos()
 	
 	var position_offset = target_center - global_position

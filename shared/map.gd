@@ -2,10 +2,10 @@ extends Node
 
 enum terrain_types { land, water, mountain }
 
-var width : int = 10
-var height : int = 10
+@export var width : int = 10
+@export var height : int = 10
 var cells : PackedByteArray = [0]
-var cell_size: float = 2.0
+@export var cell_size: float = 2.0
 
 func transform_to_tile(transform: Transform3D):
 	var position = transform.basis.x

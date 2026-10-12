@@ -1,6 +1,8 @@
 [gd_scene format=3 uid="uid://dxuybmetfqdwu"]
 
 [ext_resource type="PackedScene" uid="uid://ytodv04oaor" path="res://unit.tscn" id="1_0f027"]
+[ext_resource type="PackedScene" uid="uid://blpxanrcaask2" path="res://addons/camera_player_3d/camera_player_3d.tscn" id="2_2c62f"]
+[ext_resource type="PackedScene" uid="uid://qwr66yprcsrl" path="res://shared/map.tscn" id="3_gyfs4"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_0f027"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -23,8 +25,17 @@ environment = SubResource("Environment_gyfs4")
 transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
 shadow_enabled = true
 
-[node name="Unit" parent="." unique_id=1300394952 instance=ExtResource("1_0f027")]
+[node name="Unit" parent="." unique_id=1300394952 node_paths=PackedStringArray("map") instance=ExtResource("1_0f027")]
+map = NodePath("../Map")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=509767697]
 transform = Transform3D(1, 0, 0, 0, 0.7382656, 0.6745101, 0, -0.6745101, 0.7382656, 0, 4.6849823, 5.443174)
 current = true
+
+[node name="CameraPlayer3D" parent="." unique_id=1844049760 instance=ExtResource("2_2c62f")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1)
+speed_modifier = 10.0
+terminal_velocity = Vector3(10, 10, 10)
+
+[node name="Map" parent="." unique_id=829619776 instance=ExtResource("3_gyfs4")]
+cell_size = 0.05
