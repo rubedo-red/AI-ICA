@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://blpxanrcaask2"]
+
+[ext_resource type="Script" uid="uid://cjj0uiptaktca" path="res://addons/camera_player_3d/camera_player_3d.gd" id="1_fvs0c"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_4kxuq"]
+
+[node name="CameraPlayer3D" type="CharacterBody3D" unique_id=1844049760 node_paths=PackedStringArray("camera")]
+script = ExtResource("1_fvs0c")
+camera = NodePath("Camera3D")
+invert_mouse_y = true
+gravity = 1.0
+metadata/_custom_type_script = "uid://cjj0uiptaktca"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=462506486]
+shape = SubResource("SphereShape3D_4kxuq")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=548689323]
+current = true
