@@ -1,0 +1,55 @@
+[gd_scene format=3 uid="uid://g3rf512n3oo3"]
+
+[ext_resource type="Script" uid="uid://be12oq4pmui07" path="res://pathfinding/waypoints/waypoint.gd" id="1_ju4nb"]
+[ext_resource type="PackedScene" uid="uid://blpxanrcaask2" path="res://addons/camera_player_3d/camera_player_3d.tscn" id="2_8phcq"]
+[ext_resource type="Script" uid="uid://k4o053wl8xvh" path="res://pathfinding/waypoints/waypoint_manager.gd" id="2_85g77"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_85g77"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_wayje"]
+sky_material = SubResource("ProceduralSkyMaterial_85g77")
+
+[sub_resource type="Environment" id="Environment_xocua"]
+background_mode = 2
+sky = SubResource("Sky_wayje")
+glow_enabled = true
+
+[node name="WaypointTestMap" type="Node3D" unique_id=2098066683]
+
+[node name="SAEN" type="Node" parent="." unique_id=39222876]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="SAEN" unique_id=413797148]
+environment = SubResource("Environment_xocua")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SAEN" unique_id=1971933085]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+shadow_enabled = true
+
+[node name="CameraPlayer3D" parent="." unique_id=1844049760 instance=ExtResource("2_8phcq")]
+
+[node name="WaypointManager" type="Node" parent="." unique_id=1831281577]
+script = ExtResource("2_85g77")
+max_neighbour_distance = 100.0
+metadata/_custom_type_script = "uid://k4o053wl8xvh"
+
+[node name="PathfindingWaypoint" type="Node3D" parent="WaypointManager" unique_id=879442445 node_paths=PackedStringArray("manual_nearby_nodes")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.002224, 2.3841858e-07, -2.0059018)
+script = ExtResource("1_ju4nb")
+waypoint_variant = 1
+manual_nearby_nodes = [NodePath("../PathfindingWaypoint2")]
+shape_cast_3d_size = Vector3(100, 100, 100)
+debug_visible = true
+debug_print_found_node_in_range = true
+metadata/_custom_type_script = "uid://be12oq4pmui07"
+
+[node name="PathfindingWaypoint2" type="Node3D" parent="WaypointManager" unique_id=1048437731 node_paths=PackedStringArray("manual_nearby_nodes")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.0056696, 2.3841858e-07, 1.9963346)
+script = ExtResource("1_ju4nb")
+waypoint_variant = 1
+manual_nearby_nodes = [NodePath("../PathfindingWaypoint")]
+shape_cast_3d_size = Vector3(100, 100, 100)
+debug_visible = true
+debug_print_found_node_in_range = true
+metadata/_custom_type_script = "uid://be12oq4pmui07"
