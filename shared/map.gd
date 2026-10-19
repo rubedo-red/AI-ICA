@@ -19,7 +19,7 @@ func pos_to_tile(pos: Vector3):
 func get_tile_index(x: int, y: int):
 	return cells[x+y*width]
 
-func generate_terrain():
+func create_terrain():
 	for i in width:
 		for j in height:
 			var tile = MeshInstance3D.new()
@@ -48,13 +48,46 @@ func resize(w: int, h: int) -> void:
 	cells.resize(w*h)
 	cells.fill(0)
 
+@export var land_weight = 6;
+@export var water_weight = 4;
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	resize(width, height)
-	for i in width:
-		cells[i] = 1
-		cells[width*(height-1)+i] = 2
-	generate_terrain()
+	for i in width*height:
+		cells[i] = min(randi()%(land_weight+water_weight)/land_weight, 1)
+	for i in 100:
+		iterate_automata()
+	create_terrain()
+	
+	
+func get_neighbour_count(index: int):
+	var x = index%height
+	var y: int = index/width
+	var count = 0
+	for n in range(-1, 2):
+		for m in range(-1, 2):
+			var checkx = m+x 
+			var checky = n+y
+			if (checkx>=0 and checkx<width and checky>=0 and checky<height):
+				count += min(cells[checkx+checky*width],1)
+			else:
+				count += 1
+	return count-min(cells[index],1)
+	
+	
+@export var survive_min =  3
+@export var reproduce_min = 6
+
+func iterate_automata():
+	var new_cells = PackedByteArray()
+	new_cells.resize(width*height)
+	for i in width*height:
+		new_cells[i] = cells[i]
+		var neighbours = get_neighbour_count(i)
+		if (neighbours < survive_min): new_cells[i] = 0
+		if (neighbours > reproduce_min): new_cells[i] = 1
+	cells = new_cells  
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

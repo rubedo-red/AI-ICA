@@ -4,5 +4,8 @@
 
 [node name="Map" type="Node3D" unique_id=829619776]
 script = ExtResource("1_f4d1s")
+width = 30
+height = 30
+cell_size = 1.0
 metadata/width = 10
 metadata/height = 10
