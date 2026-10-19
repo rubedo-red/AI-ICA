@@ -38,4 +38,7 @@ speed_modifier = 10.0
 terminal_velocity = Vector3(10, 10, 10)
 
 [node name="Map" parent="." unique_id=829619776 instance=ExtResource("3_gyfs4")]
-cell_size = 0.3
+width = 50
+height = 50
+cell_size = 0.2
+water_weight = 6

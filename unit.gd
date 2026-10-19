@@ -15,7 +15,7 @@ var previousTile
 
 @export var map: Node3D
 
-func _init(_boids: int =30, _cohesion: float = 3):
+func _init(_boids: int =20, _cohesion: float = 3):
 	startingBoids=_boids
 	cohesion=_cohesion
 
@@ -87,18 +87,6 @@ func _process(delta: float) -> void:
 		boid.global_position -= position_offset
 		var distance = boid.global_position.distance_to(global_position)
 		
-		var mesh_node = boid.get_node("CollisionShape3D/MeshInstance3D") as MeshInstance3D
 		
-		var mat = mesh_node.get_active_material(0) as StandardMaterial3D		
-		if mat and not mesh_node.has_meta("material_duplicated"):
-			mat = mat.duplicate()
-			mesh_node.set_surface_override_material(0, mat)
-			mesh_node.set_meta("material_duplicated", true)
-
-		if mat:
-			if distance > cohesion:
-				mat.albedo_color = Color(1, 0, 0) 
-			else:
-				mat.albedo_color = Color(0, 0, 1) 
 
 	pass

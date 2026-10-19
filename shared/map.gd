@@ -8,7 +8,7 @@ var cells : PackedByteArray = [0]
 @export var cell_size: float = 2.0
 
 func pos_to_tile(pos: Vector3):
-	var relative = global_position - pos
+	var relative =  pos - global_position 
 	relative.x = relative.x+(width*cell_size)/2
 	relative.z = relative.z+(height*cell_size)/2
 	var x = int(floor(relative.x/cell_size))
@@ -17,6 +17,8 @@ func pos_to_tile(pos: Vector3):
 	return [x, y]
 
 func get_tile_index(x: int, y: int):
+	if x < 0 or x >= width or y < 0 or y >= height:
+		return -1
 	return cells[x+y*width]
 
 func create_terrain():
