@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://g3rf512n3oo3"]
 
-[ext_resource type="Script" uid="uid://be12oq4pmui07" path="res://pathfinding/waypoints/waypoint.gd" id="1_ju4nb"]
 [ext_resource type="PackedScene" uid="uid://blpxanrcaask2" path="res://addons/camera_player_3d/camera_player_3d.tscn" id="2_8phcq"]
 [ext_resource type="Script" uid="uid://k4o053wl8xvh" path="res://pathfinding/waypoints/waypoint_manager.gd" id="2_85g77"]
+[ext_resource type="Script" uid="uid://be12oq4pmui07" path="res://pathfinding/waypoints/waypoint.gd" id="3_8phcq"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_85g77"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -34,22 +34,14 @@ script = ExtResource("2_85g77")
 max_neighbour_distance = 100.0
 metadata/_custom_type_script = "uid://k4o053wl8xvh"
 
-[node name="PathfindingWaypoint" type="Node3D" parent="WaypointManager" unique_id=879442445 node_paths=PackedStringArray("manual_nearby_nodes")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.002224, 2.3841858e-07, -2.0059018)
-script = ExtResource("1_ju4nb")
+[node name="PathfindingWaypoint" type="Node3D" parent="WaypointManager" unique_id=1101716056]
+script = ExtResource("3_8phcq")
 waypoint_variant = 1
-manual_nearby_nodes = [NodePath("../PathfindingWaypoint2")]
-shape_cast_3d_size = Vector3(100, 100, 100)
-debug_visible = true
-debug_print_found_node_in_range = true
 metadata/_custom_type_script = "uid://be12oq4pmui07"
 
-[node name="PathfindingWaypoint2" type="Node3D" parent="WaypointManager" unique_id=1048437731 node_paths=PackedStringArray("manual_nearby_nodes")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.0056696, 2.3841858e-07, 1.9963346)
-script = ExtResource("1_ju4nb")
+[node name="PathfindingWaypoint2" type="Node3D" parent="WaypointManager" unique_id=1675142374]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.3913985, 1.7774041, 1.5499536)
+script = ExtResource("3_8phcq")
 waypoint_variant = 1
-manual_nearby_nodes = [NodePath("../PathfindingWaypoint")]
-shape_cast_3d_size = Vector3(100, 100, 100)
-debug_visible = true
-debug_print_found_node_in_range = true
+max_neighbour_distance = 2.0
 metadata/_custom_type_script = "uid://be12oq4pmui07"
