@@ -7,6 +7,10 @@ var boidArray: Array[Node3D]=[]
 var startingBoids
 #max distance from the average position between boids
 var cohesion
+#Previous terrain on last tick stored in an int
+var previousTerrain: int = -1
+#Previous position on the last tick stored as a Vector3d
+var previousTile
 
 
 @export var map: Node3D
@@ -58,10 +62,20 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	
 	var t = map.pos_to_tile(global_position)
-	print(" - x: ",t[0],", z: ", t[1])
-	
-	print(map.get_tile_index(t[0],t[1]))
-	
+	if t !=previousTile:
+		print(" - x: ",t[0],", z: ", t[1])
+	var terrain = map.get_tile_index(t[0],t[1])
+	if terrain != previousTerrain:
+		if terrain == 0:
+			print("		- Land")
+		elif terrain == 1:
+			print("		- Water")
+		elif terrain == 2:
+			print("		- Mountain")
+		else:
+			print("		- Not on tile")
+	previousTerrain = terrain
+	previousTile = t
 	
 	var target_center = _calc_average_pos()
 	
