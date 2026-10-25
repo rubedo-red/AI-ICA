@@ -1,8 +1,6 @@
 [gd_scene format=3 uid="uid://dqsxt701uqeoi"]
 
 [ext_resource type="Script" uid="uid://be12oq4pmui07" path="res://pathfinding/waypoints/waypoint.gd" id="1_we3pw"]
-[ext_resource type="Shader" uid="uid://c1xeuo8o8dfdc" path="res://pathfinding/wireframe.gdshader" id="2_5hwjy"]
 
 [node name="Waypoint" type="Node3D" unique_id=1980900230]
 script = ExtResource("1_we3pw")
-debug_range_mesh_shader_material = ExtResource("2_5hwjy")

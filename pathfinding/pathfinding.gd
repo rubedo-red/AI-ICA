@@ -1,40 +1,24 @@
 extends Node3D
 
-@export var grid: PathfindingGrid3D = null 
+
+# TODO: Map has no static type in this early version!!! Fixed in later version!!
+# I used Node3D otherwise Godot thinks I want to export something that only accepts NULL
+# I also ignored unsafe_method_access warnings BECAUSE WE NEED A TYPE FOR THE MAP !!!!!!!!!!!!!!!!!
+@export var map: Node3D = null
 @export var creep: CharacterBody3D = null
-@export var destination: Node3D = null
-@export_category("Debug")
-@export var print_creep_position: bool = false
-@export var print_destination_position: bool = false
-@export var print_cell_position: bool = false
-@export var print_valid_cell_found: bool = false
-
-var creep_current_cell: Vector2 = Vector2.ZERO
-var destination_current_cell: Vector2 = Vector2.ZERO
-
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	# Determine Creep square
-	find_my_cell(creep, grid)
-	
-	# Determine Destination Square
-	find_my_cell(destination, grid)
-	
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-
 
 func _on_button_button_up() -> void:
+	if map == null:
+		push_error("Please supply a map in the @export map variable!")
+		return
+	if creep == null:
+		push_error("Please supply a creep so we can send it to a destination.")
+	
 	match $VBoxContainer/HBoxContainer/OptionButton.get_index():
 		0:
 			pass
 		1:
-			pass
+			breadth_first_search()
 		2:
 			pass
 		3:
@@ -43,20 +27,17 @@ func _on_button_button_up() -> void:
 			push_error("Invalid index")
 
 
-func find_my_cell(input_node: Node3D, grid_to_check: PathfindingGrid3D) -> Vector2i:
-	if print_destination_position:
-		print_debug("Input node is at ", input_node.position)
+func depth_first_search() -> void:
+	pass
+
+
+func breadth_first_search(allow_diagonal: bool = false) -> void:
+	if allow_diagonal:
+		push_warning("allow_diagonal not implemented!")
 	
-	var found_cell: bool = false
-	for cell in grid_to_check.cells:
-		if print_cell_position:
-			print_debug("This cell is at ", floor(cell.position))
-			
-		if floorf(cell.position.x) == floorf(input_node.position.x) and floorf(cell.position.z) == floorf(input_node.position.z):
-			if print_valid_cell_found:
-				print_debug("Found valid cell at!")
-			found_cell = true
-	if not found_cell:
-		push_warning("Node is not on the grid :(")
+	@warning_ignore("unsafe_method_access")
+	var starting_tile: int = map.transform_to_tile(creep.get_transform())
 	
-	return Vector2i.ZERO
+	print_debug(starting_tile)
+	
+	pass

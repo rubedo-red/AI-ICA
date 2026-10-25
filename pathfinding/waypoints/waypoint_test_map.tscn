@@ -1,8 +1,10 @@
 [gd_scene format=3 uid="uid://g3rf512n3oo3"]
 
+[ext_resource type="Script" uid="uid://depjuje4ch2vm" path="res://pathfinding/waypoints/waypoint_test_map.gd" id="1_85g77"]
 [ext_resource type="PackedScene" uid="uid://blpxanrcaask2" path="res://addons/camera_player_3d/camera_player_3d.tscn" id="2_8phcq"]
 [ext_resource type="Script" uid="uid://k4o053wl8xvh" path="res://pathfinding/waypoints/waypoint_manager.gd" id="2_85g77"]
 [ext_resource type="Script" uid="uid://be12oq4pmui07" path="res://pathfinding/waypoints/waypoint.gd" id="3_8phcq"]
+[ext_resource type="PackedScene" uid="uid://g6u8vjntas74" path="res://pathfinding/creeps/creep.tscn" id="5_wayje"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_85g77"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -17,6 +19,7 @@ sky = SubResource("Sky_wayje")
 glow_enabled = true
 
 [node name="WaypointTestMap" type="Node3D" unique_id=2098066683]
+script = ExtResource("1_85g77")
 
 [node name="SAEN" type="Node" parent="." unique_id=39222876]
 
@@ -31,17 +34,13 @@ shadow_enabled = true
 
 [node name="WaypointManager" type="Node" parent="." unique_id=1831281577]
 script = ExtResource("2_85g77")
-max_neighbour_distance = 100.0
+debug_force_show_waypoint_debug_mesh = true
+debug_force_show_waypoint_debug_range_mesh = true
 metadata/_custom_type_script = "uid://k4o053wl8xvh"
 
-[node name="PathfindingWaypoint" type="Node3D" parent="WaypointManager" unique_id=1101716056]
+[node name="PathfindingWaypoint" type="Node3D" parent="WaypointManager" unique_id=1999302372]
 script = ExtResource("3_8phcq")
-waypoint_variant = 1
 metadata/_custom_type_script = "uid://be12oq4pmui07"
 
-[node name="PathfindingWaypoint2" type="Node3D" parent="WaypointManager" unique_id=1675142374]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.3913985, 1.7774041, 1.5499536)
-script = ExtResource("3_8phcq")
-waypoint_variant = 1
-max_neighbour_distance = 2.0
-metadata/_custom_type_script = "uid://be12oq4pmui07"
+[node name="Creep" parent="." unique_id=1318449270 instance=ExtResource("5_wayje")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.03266, 0, -0.4684713)
