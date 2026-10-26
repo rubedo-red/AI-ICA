@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://blpxanrcaask2" path="res://addons/camera_player_3d/camera_player_3d.tscn" id="2_sq7jb"]
 [ext_resource type="PackedScene" uid="uid://qwr66yprcsrl" path="res://shared/map.tscn" id="3_rfi7d"]
 [ext_resource type="PackedScene" uid="uid://g6u8vjntas74" path="res://pathfinding/creeps/creep.tscn" id="4_nfalj"]
+[ext_resource type="Script" uid="uid://be12oq4pmui07" path="res://pathfinding/waypoints/waypoint.gd" id="5_cnpgj"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_rfi7d"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -17,10 +18,13 @@ background_mode = 2
 sky = SubResource("Sky_nfalj")
 glow_enabled = true
 
-[node name="Pathfinding" type="Node3D" unique_id=1690783546 node_paths=PackedStringArray("map", "creep")]
+[node name="Pathfinding" type="Node3D" unique_id=1690783546 node_paths=PackedStringArray("map", "creep", "waypoint")]
 script = ExtResource("1_5slqu")
 map = NodePath("Map")
 creep = NodePath("Creep")
+waypoint = NodePath("PathfindingWaypoint")
+_debug_print_start_tile = true
+_debug_print_end_tile = true
 
 [node name="SAEN" type="Node" parent="." unique_id=2066178618]
 
@@ -65,5 +69,10 @@ transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -3.7
 [node name="Map" parent="." unique_id=829619776 instance=ExtResource("3_rfi7d")]
 
 [node name="Creep" parent="." unique_id=1318449270 instance=ExtResource("4_nfalj")]
+
+[node name="PathfindingWaypoint" type="Node3D" parent="." unique_id=2008513108]
+script = ExtResource("5_cnpgj")
+_debug_visible = true
+metadata/_custom_type_script = "uid://be12oq4pmui07"
 
 [connection signal="button_up" from="VBoxContainer/Button" to="." method="_on_button_button_up"]
