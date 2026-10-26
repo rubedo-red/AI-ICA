@@ -12,10 +12,15 @@ var previousTerrain: int = -1
 #Previous position on the last tick stored as a Vector3d
 var previousTile
 
+#Boid variables distributed by the unit
+var pullStrength:float
+var cohesionSize:float
+var seperationSize:float
+
 
 @export var map: Node3D
 
-func _init(_boids: int =20, _cohesion: float = 3):
+func _init(_boids: int =50, _cohesion: float = 3):
 	startingBoids=_boids
 	cohesion=_cohesion
 
@@ -32,10 +37,10 @@ func _spawn_boid(newPosition: Vector3, id: int) -> void:
 		push_error("Failed to load boid: res://boid.tscn")
 		return
 	
-	var instance: Node3D = scene.instantiate()
+	var instance: Boid = scene.instantiate()
 	
 	instance.position = newPosition
-	instance.setup(id)
+	instance.setup(id,)
 	
 	instance.name = "Boid"+str(id)
 	add_child(instance)
