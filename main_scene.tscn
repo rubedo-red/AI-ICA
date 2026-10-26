@@ -18,6 +18,8 @@ glow_enabled = true
 
 [node name="MainScene" type="Node3D" unique_id=452344012]
 
+[node name="Map" parent="." unique_id=829619776 instance=ExtResource("3_gyfs4")]
+
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1705001911]
 environment = SubResource("Environment_gyfs4")
 
@@ -36,9 +38,3 @@ current = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1)
 speed_modifier = 10.0
 terminal_velocity = Vector3(10, 10, 10)
-
-[node name="Map" parent="." unique_id=829619776 instance=ExtResource("3_gyfs4")]
-width = 50
-height = 50
-cell_size = 0.2
-water_weight = 6

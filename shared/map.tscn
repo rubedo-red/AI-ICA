@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" uid="uid://df8428mg7aq8e" path="res://shared/map.gd" id="1_f4d1s"]
 
+[sub_resource type="ArrayMesh" id="ArrayMesh_f4d1s"]
+
 [node name="Map" type="Node3D" unique_id=829619776]
 script = ExtResource("1_f4d1s")
 width = 30
@@ -9,3 +11,6 @@ height = 30
 cell_size = 1.0
 metadata/width = 10
 metadata/height = 10
+
+[node name="terrain" type="MeshInstance3D" parent="." unique_id=37343210]
+mesh = SubResource("ArrayMesh_f4d1s")
