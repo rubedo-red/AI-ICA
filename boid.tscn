@@ -3,6 +3,8 @@
 [ext_resource type="Script" uid="uid://et3m5gnqgxja" path="res://boid.gd" id="1_xur1n"]
 [ext_resource type="PackedScene" uid="uid://cdtihabsqsq7x" path="res://assets/models/Guy_v0.1.glb" id="2_rwlh6"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rwlh6"]
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_un08l"]
 size = Vector3(0.1, 0.1, 0.1)
 
@@ -17,8 +19,15 @@ size = Vector3(0.1, 0.1, 0.2)
 [node name="Boid" type="CharacterBody3D" unique_id=1807621701]
 script = ExtResource("1_xur1n")
 
+[node name="Guy_v0_1" parent="." unique_id=359717293 instance=ExtResource("2_rwlh6")]
+transform = Transform3D(-3.059797e-09, 0, -0.07, 0, 0.07, 0, 0.07, 0, -3.059797e-09, 0, 0, 0)
+
+[node name="Cube" parent="Guy_v0_1" index="0" unique_id=525938609]
+surface_material_override/0 = SubResource("StandardMaterial3D_rwlh6")
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=603293540]
 shape = SubResource("BoxShape3D_un08l")
+disabled = true
 debug_color = Color(18.328726, 0, 9.243387, 1)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D" unique_id=1421480357]
@@ -36,5 +45,4 @@ pixel_size = 0.0001
 text = "V"
 font_size = 60
 
-[node name="Guy_v0_1" parent="CollisionShape3D" unique_id=359717293 instance=ExtResource("2_rwlh6")]
-transform = Transform3D(-3.059797e-09, 0, -0.07, 0, 0.07, 0, 0.07, 0, -3.059797e-09, 0, 0, 0)
+[editable path="Guy_v0_1"]

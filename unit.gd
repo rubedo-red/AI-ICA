@@ -1,28 +1,44 @@
 extends Node3D
 
-
 #store boids belonging to the unit within an array
 var boidArray: Array[Node3D]=[]
 #Starting number of boids when unit is spawned in
 var startingBoids
-#max distance from the average position between boids
-var cohesion
 #Previous terrain on last tick stored in an int
 var previousTerrain: int = -1
 #Previous position on the last tick stored as a Vector3d
 var previousTile
+#Array holding all other units that overlap into the cohesion bubble
+var overlapping_units: Array[Node3D]
+@export var stop: bool = false
+
+@export var boid_colour: Color = Color(1, 0, 0)
 
 #Boid variables distributed by the unit
-var pullStrength:float
-var cohesionSize:float
-var seperationSize:float
+@export var pullStrength:float
+@export var cohesionSize:float
+@export var seperationSize:float
 
 
-@export var map: Node3D
+@export var map: Node3D 
 
-func _init(_boids: int =50, _cohesion: float = 3):
+@export var manager: UnitManager
+func add_manager() -> void:
+	manager = $"../unit_manager"
+	if manager:
+		manager.add_unit(self)
+	else:
+		print("Error: Could not find manager")
+
+func remove_unit() -> void:
+	if manager:
+		manager.remove_unit(self)
+
+func get_units() -> Array[Node3D]:
+	return manager.get_units()
+
+func _init(_boids: int =50):
 	startingBoids=_boids
-	cohesion=_cohesion
 
 func _calc_average_pos() -> Vector3:
 	var pos_total: Vector3 = Vector3.ZERO
@@ -40,7 +56,7 @@ func _spawn_boid(newPosition: Vector3, id: int) -> void:
 	var instance: Boid = scene.instantiate()
 	
 	instance.position = newPosition
-	instance.setup(id,)
+	instance.setup(id,pullStrength,cohesionSize,seperationSize)
 	
 	instance.name = "Boid"+str(id)
 	add_child(instance)
@@ -48,15 +64,17 @@ func _spawn_boid(newPosition: Vector3, id: int) -> void:
 	pass
 
 # Called when the node enters the scene tree for the first time.
-func _ready() -> void:	
+func _ready() -> void:
+	add_manager()
+	map = $"../Map"
 	var x
 	var z
 	var angle_step = 2*3.14/startingBoids
 	var angle
 	for i in range(startingBoids):
 		angle=i*angle_step
-		x=cohesion*cos(angle)
-		z=cohesion*sin(angle)
+		x=cohesionSize*cos(angle)
+		z=cohesionSize*sin(angle)
 		var pos: Vector3 = Vector3(position.x+x, position.y, position.z+z)
 		
 		_spawn_boid(pos, i)
@@ -66,19 +84,24 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	
+	if manager:
+		overlapping_units = manager.get_overlapping_units(self)
+	else:
+		overlapping_units = []
+	
 	var t = map.pos_to_tile(global_position)
-	if t !=previousTile:
-		print(" - x: ",t[0],", z: ", t[1])
+	#if t !=previousTile:
+		#print(" - x: ",t[0],", z: ", t[1])
 	var terrain = map.get_tile_index(t[0],t[1])
-	if terrain != previousTerrain:
-		if terrain == 0:
-			print("		- Land")
-		elif terrain == 1:
-			print("		- Water")
-		elif terrain == 2:
-			print("		- Mountain")
-		else:
-			print("		- Not on tile")
+	#if terrain != previousTerrain:
+		#if terrain == 0:
+			#print("		- Land")
+		#elif terrain == 1:
+			#print("		- Water")
+		#elif terrain == 2:
+			#print("		- Mountain")
+		#else:
+			#print("		- Not on tile")
 	previousTerrain = terrain
 	previousTile = t
 	
