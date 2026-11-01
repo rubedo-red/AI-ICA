@@ -7,7 +7,7 @@ extends Node3D
 # TODO: Map has no static type in this early version!!! Fixed in later version!!
 # I used Node3D otherwise Godot thinks I want to export something that only accepts NULL
 # I also ignored unsafe_method_access warnings BECAUSE WE NEED A TYPE FOR THE MAP !!!!!!!!!!!!!!!!!
-@export var map: Map = null
+@export var map: Node3D = null
 ## This unit will try and find a waypoint.
 @export var creep: CharacterBody3D = null
 ## What the unit will try and find.
@@ -32,6 +32,7 @@ func _on_button_button_up() -> void:
 	if waypoint == null:
 		push_error("Please supply a waypoint so it can be a destination.")
 	
+	# TODO: Warning because get_node() returns a node type, but we want an OptionButton type
 	match $VBoxContainer/HBoxContainer/OptionButton.get_selected():
 		0:
 			depth_first_search()
