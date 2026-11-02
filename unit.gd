@@ -12,7 +12,9 @@ var previousTile
 var overlapping_units: Array[Node3D]
 @export var stop: bool = false
 
-@export var boid_colour: Color = Color(1, 0, 0)
+@export var boid_colour: Color = Color(1, 0, 1)
+@export var boid_accessory_0_colour = Color(1, 0, 1)
+@export var boid_accessory_1_colour = Color(1, 0, 1)
 
 #Boid variables distributed by the unit
 @export var pullStrength:float
