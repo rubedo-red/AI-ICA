@@ -1,16 +1,21 @@
 [gd_scene format=3 uid="uid://qwr66yprcsrl"]
 
 [ext_resource type="Script" uid="uid://df8428mg7aq8e" path="res://shared/map.gd" id="1_f4d1s"]
+[ext_resource type="Shader" uid="uid://dscedf66fa4uw" path="res://shared/terrain.gdshader" id="2_cb201"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gyfs4"]
+render_priority = 0
+shader = ExtResource("2_cb201")
+shader_parameter/mountain_height = 0.7
+shader_parameter/land_height = 0.4
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_f4d1s"]
 
 [node name="Map" type="Node3D" unique_id=829619776]
 script = ExtResource("1_f4d1s")
-width = 30
-height = 30
-cell_size = 1.0
 metadata/width = 10
 metadata/height = 10
 
 [node name="terrain" type="MeshInstance3D" parent="." unique_id=37343210]
+material_override = SubResource("ShaderMaterial_gyfs4")
 mesh = SubResource("ArrayMesh_f4d1s")
