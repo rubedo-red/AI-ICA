@@ -7,7 +7,7 @@ extends Node3D
 # TODO: Map has no static type in this early version!!! Fixed in later version!!
 # I used Node3D otherwise Godot thinks I want to export something that only accepts NULL
 # I also ignored unsafe_method_access warnings BECAUSE WE NEED A TYPE FOR THE MAP !!!!!!!!!!!!!!!!!
-@export var map: Node3D = null
+@export var map: Map = null
 ## This unit will try and find a waypoint.
 @export var creep: CharacterBody3D = null
 ## What the unit will try and find.
@@ -49,6 +49,7 @@ func _on_button_button_up() -> void:
 			push_error("Invalid index")
 
 
+## @deprecated: Map was given a class name in commit [url=https://github.com/rubedo-red/AI-ICA/commit/31d54d6a6ca002f17dd90a4119c7c4533efbd4c9#diff-0b5ca7d95fad14bec772b88930902f37eb1590a31cd69872963220be008e94f6]31d54d6[/url].
 ## Turns the evil typeless array returned by map's pos_to_tile() method into a nice Vector2i!
 func _pos_to_tile_array_to_vector(evil_array: Array) -> Vector2i:
 	# This cast is always going to be unsafe as the Array has no specific type :/ Ignore it !
@@ -58,10 +59,8 @@ func _pos_to_tile_array_to_vector(evil_array: Array) -> Vector2i:
 
 ## Calls a recursive _dfs_search_next method. Has a boolean array that has an entry for each cell the map has.
 func depth_first_search() -> void:
-	@warning_ignore("unsafe_method_access", "unsafe_call_argument")
-	var starting_tile: Vector2i = _pos_to_tile_array_to_vector(map.pos_to_tile(creep.get_position()))
-	@warning_ignore("unsafe_method_access", "unsafe_call_argument")
-	var end_tile: Vector2i = _pos_to_tile_array_to_vector(map.pos_to_tile(waypoint.get_position()))
+	var starting_tile: Vector2i = map.pos_to_tile(creep.get_position())
+	var end_tile: Vector2i = map.pos_to_tile(waypoint.get_position())
 	
 	if _debug_print_start_tile:
 		print_debug(starting_tile)
@@ -109,11 +108,8 @@ func _dfs_search_next(current_tile: Vector2i, end_tile: Vector2i, searched_tiles
 
 
 func breadth_first_search() -> bool:
-	# Everytyhing is unsafe D: We should build a hand to hold :D
-	@warning_ignore("unsafe_method_access", "unsafe_call_argument")
-	var starting_tile: Vector2i = _pos_to_tile_array_to_vector(map.pos_to_tile(creep.get_position()))
-	@warning_ignore("unsafe_method_access", "unsafe_call_argument")
-	var end_tile: Vector2i = _pos_to_tile_array_to_vector(map.pos_to_tile(waypoint.get_position()))
+	var starting_tile: Vector2i = map.pos_to_tile(creep.get_position())
+	var end_tile: Vector2i = map.pos_to_tile(waypoint.get_position())
 	
 	if _debug_print_start_tile:
 		print_debug(starting_tile)
