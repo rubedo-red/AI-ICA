@@ -19,14 +19,15 @@ extends CharacterBody3D
 @export var friction: float = 0.5
 # NOTE: Don't forget to negate gravity!
 @export var gravity: float = -0
-@export var terminal_velocity: Vector3 = Vector3.ONE
+## The first element is the limit for horizontal movement.
+## The second element is the limit for vertical (gravity) movement.
+@export var terminal_velocity: Vector2 = Vector2.ONE
 @export_category("Debug")
 @export var print_velocity: bool = false
 
 # TODO: I don't like having these global :\
 var move_vector: Vector2 = Vector2.ZERO
 var vertical_movement: float = 0.0
-
 
 func _input(event: InputEvent) -> void:
 	move_vector = Input.get_vector("camera_player_3d_move_leftwards", "camera_player_3d_move_rightwards", "camera_player_3d_move_forwards", "camera_player_3d_move_backwards")
@@ -47,9 +48,13 @@ func _physics_process(_delta: float) -> void:
 
 func move(vector: Vector2) -> void:
 	# APPLY THE BASIS FIRST!!!!!
-	velocity += basis * Vector3(vector.x, vertical_movement, vector.y) * speed_modifier
+	# HACK: No rampup so we don't need to respect terminal velocity.
+	# Fixes locked to axis bug (used to be += insead of just =)
+	velocity = basis * Vector3(vector.x, vertical_movement, vector.y) * speed_modifier
 	
-	velocity = velocity.clamp(-terminal_velocity, terminal_velocity)
+	# BUG: This can lock movement to axis if the camera is at certain rotations
+	# when speed_modifier == terminal_velocity.x OR if terminal velocity is reached via ramp-up.
+	#velocity = velocity.limit_length(terminal_velocity.x)
 	
 	if print_velocity:
 		print_debug("Velocity is: ", velocity)
