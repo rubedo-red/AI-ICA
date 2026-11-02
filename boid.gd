@@ -81,16 +81,16 @@ func _ready() -> void:
 	if unit == null or not "boid_colour" in unit:
 		print("Error: Parent node is missing or does not contain 'boid_colour'")
 		return
-	var boid_mesh = get_node("Guy_v0_1/Cube") as MeshInstance3D
-	var boid_mat = boid_mesh.get_active_material(0) as StandardMaterial3D	
+	# var boid_mesh = get_node("Guy_v0_1/Cube") as MeshInstance3D
+	# var boid_mat = boid_mesh.get_active_material(0) as StandardMaterial3D	
 	
-	if boid_mat and not boid_mesh.has_meta("material_duplicated"):
-		boid_mat = boid_mat.duplicate() as StandardMaterial3D
-		boid_mesh.set_surface_override_material(0, boid_mat)
-		boid_mesh.set_meta("material_duplicated", true)
+	# if boid_mat and not boid_mesh.has_meta("material_duplicated"):
+	#	boid_mat = boid_mat.duplicate() as StandardMaterial3D
+	#	boid_mesh.set_surface_override_material(0, boid_mat)
+	#	boid_mesh.set_meta("material_duplicated", true)
 		
-	if boid_mat:
-		boid_mat.albedo_color = unit.boid_colour
+	# if boid_mat:
+	#	boid_mat.albedo_color = unit.boid_colour
 	
 	forward_dir = global_transform.basis.z.normalized()
 	rotation.y = randf_range(0,360)
