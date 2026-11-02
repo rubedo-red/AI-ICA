@@ -15,12 +15,15 @@ var unit: Node3D
 
 
 
+
 func setup( boid_id : int = 0, boid_cohesion_strength : float = 1.0,boid_cohesion_size : float = 3.0, boid_seperation_size : float = 0.6 ) -> void:
 	id=boid_id
 	pullStrength = boid_cohesion_strength
 	cohesionSize = boid_cohesion_size
 	seperationSize = boid_seperation_size
 	var label_node := $CollisionShape3D/MeshInstance3D/bLabel
+	
+	
 	label_node.text = str(id)
 	
 
@@ -78,44 +81,27 @@ func _seperation_test(delta:float)->bool:
 func _ready() -> void:
 	unit = get_parent()
 	
-	if unit == null or not "boid_colour" in unit:
-		print("Error: Parent node is missing or does not contain 'boid_colour'")
-		return
-	var boid_mesh = get_node("Guy_v0_1/Body") as MeshInstance3D
-	var boid_mat = boid_mesh.get_active_material(0) as StandardMaterial3D	
-	if boid_mat and not boid_mesh.has_meta("material_duplicated"):
-		boid_mat = boid_mat.duplicate() as StandardMaterial3D
-		boid_mesh.set_surface_override_material(0, boid_mat)
-		boid_mesh.set_meta("material_duplicated", true)
-	if boid_mat:
-		boid_mat.albedo_color = unit.boid_colour
-	
-	if unit == null or not "boid_accessory_0_colour" in unit:
-		print("Error: Parent node is missing or does not contain 'boid_colour'")
-	
-	if get_node("Guy_v0_1/Accessory_0") != null:
-		var boid_accessory_0_mesh = get_node("Guy_v0_1/Accessory_0") as MeshInstance3D
-		var boid_accessory_0_mat = boid_accessory_0_mesh.get_active_material(0) as StandardMaterial3D	
-		if boid_accessory_0_mat and not boid_accessory_0_mesh.has_meta("material_duplicated"):
-			boid_accessory_0_mat = boid_accessory_0_mat.duplicate() as StandardMaterial3D
-			boid_accessory_0_mesh.set_surface_override_material(0, boid_accessory_0_mat)
-			boid_accessory_0_mesh.set_meta("material_duplicated", true)
-		if boid_accessory_0_mat:
-			boid_accessory_0_mat.albedo_color = unit.boid_accessory_0_colour
 	
 	
 	
-	if unit == null or not "boid_accessory_1_colour" in unit:
-		print("Error: Parent node is missing or does not contain 'boid_colour'")
-	if get_node("Guy_v0_1/Accessory_1") != null:
-		var boid_accessory_1_mesh = get_node("Guy_v0_1/Accessory_2") as MeshInstance3D
-		var boid_accessory_1_mat = boid_accessory_1_mesh.get_active_material(0) as StandardMaterial3D	
-		if boid_accessory_1_mat and not boid_accessory_1_mesh.has_meta("material_duplicated"):
-			boid_accessory_1_mat = boid_accessory_1_mat.duplicate() as StandardMaterial3D
-			boid_accessory_1_mesh.set_surface_override_material(0, boid_accessory_1_mat)
-			boid_accessory_1_mesh.set_meta("material_duplicated", true)
-		if boid_accessory_1_mat:
-			boid_accessory_1_mat.albedo_color = unit.boid_accessory_1_colour
+	
+	for a in $Guy_v0_1.get_children():
+		
+		if a.name.contains("Body"):
+			var b_mat := StandardMaterial3D.new()
+			b_mat.albedo_color = unit.boid_colour
+			a.set_surface_override_material(0,b_mat) 
+			continue
+		var a0_mat := StandardMaterial3D.new()
+		var a1_mat := StandardMaterial3D.new()
+		a0_mat.albedo_color = unit.boid_accessory_0_colour
+		a.set_surface_override_material(0,a0_mat) 
+		a1_mat.albedo_color = unit.boid_accessory_1_colour
+		a.set_surface_override_material(1,a1_mat) 
+		if randi_range(0,3)  == 0 and not a.name.contains("0"):
+			a.visible = false
+	
+	
 	
 	forward_dir = global_transform.basis.z.normalized()
 	rotation.y = randf_range(0,360)

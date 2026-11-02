@@ -3,11 +3,15 @@ class_name UnitManager
 
 var units: Array[Node3D]
 var army_colour
+var army_colour_a_0
+var army_colour_a_1
 
 func add_unit(newUnit:Node3D) -> void:
 	if not units.has(newUnit):
 		print("Added unit: ", newUnit.name)
 		newUnit.boid_colour = army_colour
+		newUnit.boid_accessory_0_colour = army_colour_a_0
+		newUnit.boid_accessory_1_colour= army_colour_a_1
 		units.append(newUnit)
 
 func remove_unit(unit: Node3D) -> void:
@@ -31,6 +35,8 @@ func get_overlapping_units(unit: Node3D) -> Array[Node3D]:
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	army_colour = Color(randf_range(0,1),randf_range(0,1),randf_range(0,1))
+	army_colour_a_0 = Color(randf_range(0,1),randf_range(0,1),randf_range(0,1))
+	army_colour_a_1 = Color(randf_range(0,1),randf_range(0,1),randf_range(0,1))
 	pass # Replace with function body.
 
 

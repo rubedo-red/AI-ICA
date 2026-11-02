@@ -36,17 +36,9 @@ shadow_enabled = true
 
 [node name="Unit" parent="." unique_id=1300394952 node_paths=PackedStringArray("map", "manager") instance=ExtResource("1_0f027")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4281919, 5.3642287, -0.4243827)
-boid_colour = Color(0.90614444, 0.7873415, 0, 1)
+boid_colour = Color(1.326, 0.5486324, 0.3723879, 1)
+boid_accessory_1_colour = Color(0.4092301, 0.6122229, 1, 1)
 pullStrength = 1.0
-cohesionSize = 2.5
-seperationSize = 0.6
-map = NodePath("../Map")
-manager = NodePath("../unit_manager")
-
-[node name="Unit2" parent="." unique_id=1447404459 node_paths=PackedStringArray("map", "manager") instance=ExtResource("1_0f027")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8711412, 5.3642287, -0.4352228)
-boid_colour = Color(0, 0.56630397, 0.8631123, 1)
-pullStrength = 2.0
 cohesionSize = 2.5
 seperationSize = 0.6
 map = NodePath("../Map")
@@ -61,18 +53,20 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1)
 speed_modifier = 10.0
 terminal_velocity = Vector3(10, 10, 10)
 
-[node name="Unit3" parent="." unique_id=1609625424 node_paths=PackedStringArray("map", "manager") instance=ExtResource("1_0f027")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7032769, 5.3642287, 0.082597494)
-boid_colour = Color(0.4605598, 0.57169336, 0.63770306, 1)
+[node name="Unit2" parent="." unique_id=1509499396 node_paths=PackedStringArray("map", "manager") instance=ExtResource("1_0f027")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4281919, 5.3642287, -0.4243827)
+boid_colour = Color(1.326, 0.5486324, 0.3723879, 1)
+boid_accessory_1_colour = Color(0.4092301, 0.6122229, 1, 1)
 pullStrength = 1.0
 cohesionSize = 2.5
 seperationSize = 0.6
 map = NodePath("../Map")
 manager = NodePath("../unit_manager")
 
-[node name="Unit4" parent="." unique_id=1831282649 node_paths=PackedStringArray("map", "manager") instance=ExtResource("1_0f027")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0969702, 5.3642287, 0.10612941)
-boid_colour = Color(0.4109906, 0.9267189, 0.041681565, 1)
+[node name="Unit3" parent="." unique_id=957339345 node_paths=PackedStringArray("map", "manager") instance=ExtResource("1_0f027")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4281919, 5.3642287, -0.4243827)
+boid_colour = Color(1.326, 0.5486324, 0.3723879, 1)
+boid_accessory_1_colour = Color(0.4092301, 0.6122229, 1, 1)
 pullStrength = 1.0
 cohesionSize = 2.5
 seperationSize = 0.6

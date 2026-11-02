@@ -7,7 +7,17 @@
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_btf8p"]
 albedo_texture = ExtResource("3_dg2sk")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rwlh6"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0jd0q"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dg2sk"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2haji"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i75ld"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_73mfy"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7x0tw"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_un08l"]
 size = Vector3(0.1, 0.1, 0.1)
@@ -26,11 +36,20 @@ script = ExtResource("1_xur1n")
 [node name="Guy_v0_1" parent="." unique_id=359717293 instance=ExtResource("2_rwlh6")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, 0)
 
-[node name="Body" parent="Guy_v0_1" index="0" unique_id=2117101940]
+[node name="Body" parent="Guy_v0_1" index="0" unique_id=593486278]
 surface_material_override/0 = SubResource("StandardMaterial3D_btf8p")
 
-[node name="Helmet" parent="Guy_v0_1" index="1" unique_id=1986800792]
-surface_material_override/0 = SubResource("StandardMaterial3D_rwlh6")
+[node name="Accessory_0" parent="Guy_v0_1" index="1" unique_id=137115923]
+surface_material_override/0 = SubResource("StandardMaterial3D_0jd0q")
+surface_material_override/1 = SubResource("StandardMaterial3D_dg2sk")
+
+[node name="Accessory_1" parent="Guy_v0_1" index="2" unique_id=1915141335]
+surface_material_override/0 = SubResource("StandardMaterial3D_2haji")
+surface_material_override/1 = SubResource("StandardMaterial3D_i75ld")
+
+[node name="Accessory_2" parent="Guy_v0_1" index="3" unique_id=1712227564]
+surface_material_override/0 = SubResource("StandardMaterial3D_73mfy")
+surface_material_override/1 = SubResource("StandardMaterial3D_7x0tw")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=603293540]
 shape = SubResource("BoxShape3D_un08l")
