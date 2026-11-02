@@ -15,6 +15,11 @@ extends Node3D
 @export_category("Debug")
 @export var _debug_print_start_tile: bool = false
 @export var _debug_print_end_tile: bool = false
+@export_subgroup("Depth-first Search")
+# ATTENTION: This will cause an output buffer overflow in Godot's output log.
+# Please look at the output terminal instead!
+# (You can find this in the directory in which you installed Godot)
+@export var _debug_print_current_tile: bool = false
 @export_subgroup("Breadth-first Search")
 
 
@@ -27,9 +32,10 @@ func _on_button_button_up() -> void:
 	if waypoint == null:
 		push_error("Please supply a waypoint so it can be a destination.")
 	
-	match $VBoxContainer/HBoxContainer/OptionButton.get_index():
+	# TODO: Warning because get_node() returns a node type, but we want an OptionButton type
+	match $VBoxContainer/HBoxContainer/OptionButton.get_selected():
 		0:
-			pass
+			depth_first_search()
 		1:
 			if breadth_first_search():
 				print_debug("Creep found the waypoint :)))))")
@@ -50,8 +56,56 @@ func _pos_to_tile_array_to_vector(evil_array: Array) -> Vector2i:
 	return Vector2i(evil_array[0], evil_array[1])
 
 
+## Calls a recursive _dfs_search_next method. Has a boolean array that has an entry for each cell the map has.
 func depth_first_search() -> void:
-	pass
+	@warning_ignore("unsafe_method_access", "unsafe_call_argument")
+	var starting_tile: Vector2i = _pos_to_tile_array_to_vector(map.pos_to_tile(creep.get_position()))
+	@warning_ignore("unsafe_method_access", "unsafe_call_argument")
+	var end_tile: Vector2i = _pos_to_tile_array_to_vector(map.pos_to_tile(waypoint.get_position()))
+	
+	if _debug_print_start_tile:
+		print_debug(starting_tile)
+	if _debug_print_end_tile:
+		print_debug(end_tile)
+	
+	# Array of cells we've searched. True means they've been searched.
+	var searched_cells: Array[bool] = []
+	for cell: int in map.cells:
+		searched_cells.append(false)
+	
+	if _dfs_search_next(starting_tile, end_tile, searched_cells):
+		print_debug("Found end_tile!")
+	else:
+		print_debug("Could not find end_tile :(")
+
+## Private recursive method. Returns true if the end_tile was found, otherwise returns false.
+func _dfs_search_next(current_tile: Vector2i, end_tile: Vector2i, searched_tiles: Array[bool]) -> bool:
+	if _debug_print_current_tile:
+		print_debug("Searching tile ", current_tile)
+	
+	if current_tile == end_tile:
+		return true
+	
+	searched_tiles[current_tile.y * map.width + current_tile.x] = true
+	
+	# We CAN progress if we are NOT going out of map bounds
+	# or if we are NOT going onto a tile we've already searched
+	if not (current_tile.x + 1 >= map.width or searched_tiles[current_tile.y * map.width + current_tile.x + 1] == true):
+		if _dfs_search_next(Vector2i(current_tile.x + 1, current_tile.y), end_tile, searched_tiles):
+			return true
+	if not (current_tile.y - 1 < 0 or searched_tiles[(current_tile.y - 1) * map.width + current_tile.x] == true):
+		if _dfs_search_next(Vector2i(current_tile.x, current_tile.y - 1), end_tile, searched_tiles):
+			return true
+	if not (current_tile.y + 1 >= map.height or searched_tiles[(current_tile.y + 1) * map.width + current_tile.x] == true):
+		if _dfs_search_next(Vector2i(current_tile.x, current_tile.y + 1), end_tile, searched_tiles):
+			return true
+	if not (current_tile.x - 1 < 0 or searched_tiles[current_tile.y * map.width + current_tile.x - 1] == true):
+		if _dfs_search_next(Vector2i(current_tile.x - 1, current_tile.y), end_tile, searched_tiles):
+			return true
+	
+	# If we are completly stuck and have no other tiles left to go
+	push_warning("Got stuck!")
+	return false
 
 
 func breadth_first_search() -> bool:
