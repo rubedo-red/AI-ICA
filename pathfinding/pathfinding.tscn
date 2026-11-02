@@ -1,0 +1,78 @@
+[gd_scene format=3 uid="uid://wrjts7a858jh"]
+
+[ext_resource type="Script" uid="uid://c5j7w3u7wn8cg" path="res://pathfinding/pathfinding.gd" id="1_5slqu"]
+[ext_resource type="PackedScene" uid="uid://blpxanrcaask2" path="res://addons/camera_player_3d/camera_player_3d.tscn" id="2_sq7jb"]
+[ext_resource type="PackedScene" uid="uid://qwr66yprcsrl" path="res://shared/map.tscn" id="3_rfi7d"]
+[ext_resource type="PackedScene" uid="uid://g6u8vjntas74" path="res://pathfinding/creeps/creep.tscn" id="4_nfalj"]
+[ext_resource type="Script" uid="uid://be12oq4pmui07" path="res://pathfinding/waypoints/waypoint.gd" id="5_cnpgj"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_rfi7d"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_nfalj"]
+sky_material = SubResource("ProceduralSkyMaterial_rfi7d")
+
+[sub_resource type="Environment" id="Environment_cnpgj"]
+background_mode = 2
+sky = SubResource("Sky_nfalj")
+glow_enabled = true
+
+[node name="Pathfinding" type="Node3D" unique_id=1690783546 node_paths=PackedStringArray("map", "creep", "waypoint")]
+script = ExtResource("1_5slqu")
+map = NodePath("Map")
+creep = NodePath("Creep")
+waypoint = NodePath("PathfindingWaypoint")
+_debug_print_start_tile = true
+_debug_print_end_tile = true
+
+[node name="SAEN" type="Node" parent="." unique_id=2066178618]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="SAEN" unique_id=796480515]
+environment = SubResource("Environment_cnpgj")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SAEN" unique_id=1059074846]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+shadow_enabled = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=873881677]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=57532507]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer" unique_id=1850883671]
+layout_mode = 2
+text = "Algorithm"
+
+[node name="OptionButton" type="OptionButton" parent="VBoxContainer/HBoxContainer" unique_id=1039474321]
+layout_mode = 2
+selected = 0
+item_count = 4
+popup/item_0/text = "DFS (Depth-first Search)"
+popup/item_0/id = 0
+popup/item_1/text = "BFS (Breadth-first Search)"
+popup/item_1/id = 1
+popup/item_2/text = "Dijkstra"
+popup/item_2/id = 2
+popup/item_3/text = "A*"
+popup/item_3/id = 3
+
+[node name="Button" type="Button" parent="VBoxContainer" unique_id=75683016]
+layout_mode = 2
+text = "Start"
+
+[node name="CameraPlayer3D" parent="." unique_id=1844049760 instance=ExtResource("2_sq7jb")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -3.707, 5.5, 0)
+
+[node name="Map" parent="." unique_id=829619776 instance=ExtResource("3_rfi7d")]
+
+[node name="Creep" parent="." unique_id=1318449270 instance=ExtResource("4_nfalj")]
+
+[node name="PathfindingWaypoint" type="Node3D" parent="." unique_id=2008513108]
+script = ExtResource("5_cnpgj")
+_debug_visible = true
+metadata/_custom_type_script = "uid://be12oq4pmui07"
+
+[connection signal="button_up" from="VBoxContainer/Button" to="." method="_on_button_button_up"]

@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://b1i46opivwtoi"]
+
+[ext_resource type="Script" uid="uid://dq05s84hsmym" path="res://pathfinding/grid.gd" id="1_hu5rs"]
+[ext_resource type="Texture2D" uid="uid://ce0cvqj43jap6" path="res://pathfinding/cell_colours/cell_white.png" id="2_48kow"]
+
+[node name="Grid" type="Node3D" unique_id=1776649299]
+script = ExtResource("1_hu5rs")
+cell_texture_1 = ExtResource("2_48kow")

@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://dqsxt701uqeoi"]
+
+[ext_resource type="Script" uid="uid://be12oq4pmui07" path="res://pathfinding/waypoints/waypoint.gd" id="1_we3pw"]
+
+[node name="Waypoint" type="Node3D" unique_id=1980900230]
+script = ExtResource("1_we3pw")
