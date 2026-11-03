@@ -2,24 +2,19 @@
 
 [ext_resource type="Script" uid="uid://creyoy7ypt08w" path="res://unit.gd" id="1_btf8p"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_btf8p"]
-transparency = 1
-albedo_color = Color(0.45490196, 0, 0.45882353, 0.5803922)
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ctwoc"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_3pcld"]
 material = SubResource("StandardMaterial3D_ctwoc")
 radius = 2.5
-height = 0.04
+height = 5.0
 rings = 10
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j5oru"]
 
 [node name="Unit" type="CharacterBody3D" unique_id=1300394952]
 script = ExtResource("1_btf8p")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=835088675]
-material_override = SubResource("StandardMaterial3D_btf8p")
 mesh = SubResource("SphereMesh_3pcld")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1151404491]
-debug_color = Color(0.36862746, 0.47843137, 1, 1)
+surface_material_override/0 = SubResource("StandardMaterial3D_j5oru")

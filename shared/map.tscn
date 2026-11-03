@@ -19,3 +19,7 @@ metadata/height = 10
 [node name="terrain" type="MeshInstance3D" parent="." unique_id=37343210]
 material_override = SubResource("ShaderMaterial_gyfs4")
 mesh = SubResource("ArrayMesh_f4d1s")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=699925011]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=1759096367]

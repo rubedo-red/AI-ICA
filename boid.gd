@@ -12,6 +12,8 @@ var mat
 var copyBoids
 var unit: Node3D
 
+@onready var raycast: RayCast3D = $RayCast3D
+
 
 
 
@@ -54,7 +56,9 @@ func _cohesion_test(dist : float, parent_pos: Vector3, delta:float ) ->bool:
 			return false
 	return true
 
+
 func _seperation_test(delta:float)->bool:
+	
 	var dir_to_other: Vector3 
 	if distance >cohesionSize:
 		return	true
@@ -75,8 +79,6 @@ func _seperation_test(delta:float)->bool:
 			return false
 	return true
 
-
-
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	unit = get_parent()
@@ -95,8 +97,12 @@ func _ready() -> void:
 		var a0_mat := StandardMaterial3D.new()
 		var a1_mat := StandardMaterial3D.new()
 		a0_mat.albedo_color = unit.boid_accessory_0_colour
+		a0_mat.metallic = 1
+		a0_mat.roughness = 0.2
 		a.set_surface_override_material(0,a0_mat) 
 		a1_mat.albedo_color = unit.boid_accessory_1_colour
+		a1_mat.metallic = 0.0
+		a1_mat.roughness = 0.5
 		a.set_surface_override_material(1,a1_mat) 
 		if randi_range(0,3)  == 0 and not a.name.contains("0"):
 			a.visible = false
@@ -113,9 +119,8 @@ func _ready() -> void:
 			mesh_node.set_meta("material_duplicated", true)
 	pass # Replace with function body.
 
-
-
 func _bubble_repulsion_test(delta: float) -> bool:
+	
 	if not unit or unit.overlapping_units.is_empty():
 		return true
 
@@ -145,7 +150,6 @@ func _bubble_repulsion_test(delta: float) -> bool:
 
 	return true
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	forward_dir = global_transform.basis.z.normalized()
@@ -153,6 +157,11 @@ func _process(delta: float) -> void:
 	var parent_position = get_parent_node_3d().position
 	distance = global_position.distance_to(parent_position)
 	mat.albedo_color = Color(1,1,1)
+	
+	if raycast.is_colliding():
+		var ground_point = raycast.get_collision_point()
+		global_position.y = ground_point.y
+
 	
 	var repulsion:bool = _bubble_repulsion_test(delta)
 	if !repulsion:

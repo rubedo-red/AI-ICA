@@ -73,6 +73,11 @@ func update_mesh():
 	var array_mesh := ArrayMesh.new()
 	array_mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, plane_arrays)
 	terrain.mesh = array_mesh
+	
+	var collision_shape = $StaticBody3D/CollisionShape3D
+	collision_shape.shape = array_mesh.create_trimesh_shape()
+	
+
 
 func pos_to_tile(pos: Vector3) -> Vector2i:
 	var relative =  pos - global_position 
