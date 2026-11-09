@@ -23,6 +23,17 @@ extends Node3D
 @export_subgroup("Breadth-first Search")
 
 
+func _ready() -> void:
+	@warning_ignore("narrowing_conversion")
+	if Vector2i(creep.get_position().x, creep.get_position().y) != map.pos_to_tile(creep.get_position()):
+		push_warning("Creep position does not conform to grid... Moving!")
+		creep.set_position(map.tile_to_world_position(map.pos_to_tile(creep.get_position())))
+	@warning_ignore("narrowing_conversion")
+	if Vector2i(waypoint.get_position().x, waypoint.get_position().y) != map.pos_to_tile(waypoint.get_position()):
+		push_warning("Waypoint position does not conform to grid... Moving!")
+		waypoint.set_position(map.tile_to_world_position(map.pos_to_tile(waypoint.get_position())))
+
+
 func _on_button_button_up() -> void:
 	if map == null:
 		push_error("Please supply a map in the @export map variable!")
@@ -63,9 +74,11 @@ func depth_first_search() -> void:
 	var end_tile: Vector2i = map.pos_to_tile(waypoint.get_position())
 	
 	if _debug_print_start_tile:
-		print_debug(starting_tile)
+		print_debug("Starting tile: ", starting_tile)
+		print_debug("Actual position: ", creep.get_position())
 	if _debug_print_end_tile:
-		print_debug(end_tile)
+		print_debug("End tile: ", end_tile)
+		print_debug("Actual position: ", waypoint.get_position())
 	
 	# Array of cells we've searched. True means they've been searched.
 	var searched_cells: Array[bool] = []
@@ -82,6 +95,11 @@ func _dfs_search_next(current_tile: Vector2i, end_tile: Vector2i, searched_tiles
 	if _debug_print_current_tile:
 		print_debug("Searching tile ", current_tile)
 	
+	creep.set_position(map.tile_to_world_position(current_tile))
+	print_debug("Creep moved to tile: ", current_tile)
+	print_debug("Creep should now be at ", map.tile_to_world_position(current_tile))
+	print_debug("Is actually at ", creep.get_position())
+	
 	if current_tile == end_tile:
 		return true
 	
@@ -90,6 +108,7 @@ func _dfs_search_next(current_tile: Vector2i, end_tile: Vector2i, searched_tiles
 	# We CAN progress if we are NOT going out of map bounds
 	# or if we are NOT going onto a tile we've already searched
 	if not (current_tile.x + 1 >= map.width or searched_tiles[current_tile.y * map.width + current_tile.x + 1] == true):
+		#creep.set_position(Vector3(map.))
 		if _dfs_search_next(Vector2i(current_tile.x + 1, current_tile.y), end_tile, searched_tiles):
 			return true
 	if not (current_tile.y - 1 < 0 or searched_tiles[(current_tile.y - 1) * map.width + current_tile.x] == true):
@@ -112,9 +131,11 @@ func breadth_first_search() -> bool:
 	var end_tile: Vector2i = map.pos_to_tile(waypoint.get_position())
 	
 	if _debug_print_start_tile:
-		print_debug(starting_tile)
+		print_debug("Creep is starting at: ", starting_tile)
+		print_debug("(", creep.get_position(), ")")
 	if _debug_print_end_tile:
-		print_debug(end_tile)
+		print_debug("End waypoint is at: ", end_tile)
+		print_debug("(", waypoint.get_position(), ")")
 	
 	var distance: int = 0
 	while distance <= max(abs(end_tile.x - starting_tile.x), abs(end_tile.y - starting_tile.y)):
@@ -126,3 +147,64 @@ func breadth_first_search() -> bool:
 		distance += 1
 	
 	return false
+
+
+func dijkstra() -> void:
+	var starting_tile: Vector2i = map.pos_to_tile(creep.get_position())
+	var end_tile: Vector2i = map.pos_to_tile(waypoint.get_position())
+	
+	if _debug_print_start_tile:
+		print_debug(starting_tile)
+	if _debug_print_end_tile:
+		print_debug(end_tile)
+
+
+func _dijkstra_search_next(current_tile: Vector2i, end_tile: Vector2i, searched_tiles: Array[bool], passed_cost: int) -> bool:
+	var current_cost: int = passed_cost
+	
+	if _debug_print_current_tile:
+		print_debug("Searching tile ", current_tile)
+	
+	if current_tile == end_tile:
+		return true
+	
+	searched_tiles[current_tile.y * map.width + current_tile.x] = true
+	
+	#var potential_costs: Array[int] = [1, 2]
+	
+	push_warning("Got stuck!")
+	return false
+
+
+## @experimental: THIS IS A DEBUG METHOD !!! DONT USE !!!
+## Teleport the [CameraPlayer3D] (name must not be changed) 1 cell above the creep.
+func _on_button_2_button_up() -> void:
+	$CameraPlayer3D.set_position(Vector3(
+		creep.get_position().x, 
+		creep.get_position().y + map.cell_size, 
+		creep.get_position().z
+		))
+	
+	print_debug("CameraPlayer3D's was teleported to: ", $CameraPlayer3D.get_position())
+	print_debug("which is tile ", map.pos_to_tile($CameraPlayer3D.get_position()), " on the grid!")
+
+
+## @experimental: THIS IS A DEBUG METHOD !!! DONT USE !!!
+## Teleport the [CameraPlayer3D] (name must not be changed) 1 cell above the waypoint.
+func _on_button_3_button_up() -> void:
+	$CameraPlayer3D.set_position(Vector3(
+		waypoint.get_position().x, 
+		waypoint.get_position().y + map.cell_size, 
+		waypoint.get_position().z
+		))
+	
+	print_debug("CameraPlayer3D's was teleported to: ", $CameraPlayer3D.get_position())
+	print_debug("which is tile ", map.pos_to_tile($CameraPlayer3D.get_position()), " on the grid!")
+
+
+# Mysterious teleport creep to waypoint function
+func _on_button_4_button_up() -> void:
+	creep.set_position(waypoint.get_position())
+	
+	print_debug("Creep is now at ", creep.get_position())
+	print_debug("Waypoint is at ", waypoint.get_position())
