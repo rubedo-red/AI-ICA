@@ -41,7 +41,8 @@ func _ready() -> void:
 
 # Find any waypoint that is a child of a single waypoint manager
 # buffer_zone is the diameter of the sphere with the waypoint's position as the origin
-func find_nearest_waypoint_to_position(current_position: Vector3, buffer_zone: Vector3 = Vector3.ZERO) -> PathfindingWaypoint:
+# buffer_zone may be useful if we ever work on this script again!
+func find_nearest_waypoint_to_position(current_position: Vector3, _buffer_zone: Vector3 = Vector3.ZERO) -> PathfindingWaypoint:
 	for i: int in get_child_count():
 		if get_child(i) is not PathfindingWaypoint:
 			push_warning("This child is not one of mine! Does it need to find another parent?")

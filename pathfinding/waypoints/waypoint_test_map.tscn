@@ -31,6 +31,7 @@ transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545
 shadow_enabled = true
 
 [node name="CameraPlayer3D" parent="." unique_id=1844049760 instance=ExtResource("2_8phcq")]
+print_velocity = true
 
 [node name="WaypointManager" type="Node" parent="." unique_id=1831281577]
 script = ExtResource("2_85g77")
@@ -40,6 +41,7 @@ metadata/_custom_type_script = "uid://k4o053wl8xvh"
 
 [node name="PathfindingWaypoint" type="Node3D" parent="WaypointManager" unique_id=1999302372]
 script = ExtResource("3_8phcq")
+_debug_visible = true
 metadata/_custom_type_script = "uid://be12oq4pmui07"
 
 [node name="Creep" parent="." unique_id=1318449270 instance=ExtResource("5_wayje")]

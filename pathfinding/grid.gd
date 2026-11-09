@@ -46,12 +46,13 @@ func _ready() -> void:
 	pass # Replace with function body.
 
 
+# Using [Map]'s grid for now.
 ## Creates a new grid of the size.
 ## Returns false if the new grid could not be created.
-func create_grid(new_grid_size: Vector2i) -> bool:
-	
-	
-	return false
+#func create_grid(new_grid_size: Vector2i) -> bool:
+	#
+	#
+	#return false
 
 
 func get_cells_in_column(column: int) -> Array[Sprite3D]:
