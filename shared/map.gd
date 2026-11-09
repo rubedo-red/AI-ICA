@@ -137,3 +137,27 @@ func _ready() -> void:
 func generate_grid():
 	cells.resize(width*height)
 	
+
+
+# Inverse of pos_to_tile
+# Example to convert the map position a tile a creep is on to a world position 
+# ActualPos = 0, 0
+# TilePos = 4, 4
+# CellSize = 8
+#
+# tile_pos * cell_size = result (32, 32)
+#
+# result * 2 = result (64, 64)
+#
+# result - (width * cell_size) = result (0, 0)
+
+## Translates a tile's position in the map to a world position.
+## This method will only return positions that are multiples of cell_size
+## so there can be substantial loss in precision.
+func tile_to_world_position(tile: Vector2i) -> Vector3:
+	# NOTE: This probably wont work if we ever need to get the hight of a tile :/
+	var result: Vector3 = Vector3(tile.x, 0, tile.y) * cell_size # Expand to local map position
+	result *= 2 # ?
+	result -= Vector3(width * cell_size, 0, height * cell_size) # Back into world position
+	
+	return result
