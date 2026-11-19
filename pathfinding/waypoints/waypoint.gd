@@ -20,7 +20,7 @@ enum NextWaypointCriteria { CLOSEST = -5, NORTH = -4, EAST = -3, SOUTH = -2, WES
 # TODO: Gross hardcoded string.
 @export var _debug_range_mesh_shader: Shader = preload("res://pathfinding/wireframe.gdshader")
 @export var _debug_range_mesh_shader_colour: Color = Color.BLACK
-@export var _debug_print_found_node_in_range: bool = false
+#@export var _debug_print_found_node_in_range: bool = false
 
 var range_nearby_nodes: Array[PathfindingWaypoint] = []
 

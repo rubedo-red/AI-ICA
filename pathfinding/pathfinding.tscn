@@ -25,6 +25,7 @@ creep = NodePath("Creep")
 waypoint = NodePath("PathfindingWaypoint")
 _debug_print_start_tile = true
 _debug_print_end_tile = true
+_debug_print_current_tile = true
 
 [node name="SAEN" type="Node" parent="." unique_id=2066178618]
 
@@ -63,6 +64,21 @@ popup/item_3/id = 3
 layout_mode = 2
 text = "Start"
 
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer" unique_id=1154804397]
+layout_mode = 2
+
+[node name="Button2" type="Button" parent="VBoxContainer" unique_id=1256288977]
+layout_mode = 2
+text = "Teleport Player to Creep"
+
+[node name="Button3" type="Button" parent="VBoxContainer" unique_id=2051424714]
+layout_mode = 2
+text = "Teleport Player to Waypoint (End Destination)"
+
+[node name="Button4" type="Button" parent="VBoxContainer" unique_id=930874553]
+layout_mode = 2
+text = "Teleport creep to waypoint"
+
 [node name="CameraPlayer3D" parent="." unique_id=1844049760 instance=ExtResource("2_sq7jb")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -3.707, 5.5, 0)
 
@@ -71,8 +87,13 @@ transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -3.7
 [node name="Creep" parent="." unique_id=1318449270 instance=ExtResource("4_nfalj")]
 
 [node name="PathfindingWaypoint" type="Node3D" parent="." unique_id=2008513108]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 10)
 script = ExtResource("5_cnpgj")
 _debug_visible = true
+_debug_range_visible = true
 metadata/_custom_type_script = "uid://be12oq4pmui07"
 
 [connection signal="button_up" from="VBoxContainer/Button" to="." method="_on_button_button_up"]
+[connection signal="button_up" from="VBoxContainer/Button2" to="." method="_on_button_2_button_up"]
+[connection signal="button_up" from="VBoxContainer/Button3" to="." method="_on_button_3_button_up"]
+[connection signal="button_up" from="VBoxContainer/Button4" to="." method="_on_button_4_button_up"]
