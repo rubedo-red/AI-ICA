@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://blpxanrcaask2" path="res://addons/camera_player_3d/camera_player_3d.tscn" id="2_2c62f"]
 [ext_resource type="PackedScene" uid="uid://qwr66yprcsrl" path="res://shared/map.tscn" id="3_gyfs4"]
 [ext_resource type="PackedScene" uid="uid://snwuuappgr5n" path="res://unit_manager.tscn" id="5_8mm7a"]
+[ext_resource type="PackedScene" uid="uid://bo44a0saf13ub" path="res://ui/worldgen/map_preview.tscn" id="5_hq1ik"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_0f027"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -18,6 +19,16 @@ sky = SubResource("Sky_2c62f")
 glow_enabled = true
 
 [node name="MainScene" type="Node3D" unique_id=452344012]
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="." unique_id=864144460]
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 160.0
+offset_bottom = 160.0
+
+[node name="MapPreview" parent="AspectRatioContainer" unique_id=1960605651 node_paths=PackedStringArray("map") instance=ExtResource("5_hq1ik")]
+layout_mode = 2
+map = NodePath("../../Map")
 
 [node name="Map" parent="." unique_id=829619776 instance=ExtResource("3_gyfs4")]
 
@@ -53,7 +64,6 @@ current = true
 [node name="CameraPlayer3D" parent="." unique_id=1844049760 instance=ExtResource("2_2c62f")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1)
 speed_modifier = 10.0
-terminal_velocity = Vector3(10, 10, 10)
 
 [node name="unit_manager" parent="." unique_id=1289173865 instance=ExtResource("5_8mm7a")]
 

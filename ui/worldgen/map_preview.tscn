@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://bo44a0saf13ub"]
+
+[ext_resource type="Script" uid="uid://c2n7yd7lqp7wl" path="res://ui/worldgen/map_preview.gd" id="1_snfeu"]
+
+[node name="MapPreview" type="Control" unique_id=1960605651]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_snfeu")
+
+[node name="bg" type="ColorRect" parent="." unique_id=2001190996]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.2231029, 0.2231029, 0.22310287, 1)
+
+[node name="cells_grid" type="GridContainer" parent="." unique_id=1640197610]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+columns = 8
+
+[node name="border" type="NinePatchRect" parent="." unique_id=653120404]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

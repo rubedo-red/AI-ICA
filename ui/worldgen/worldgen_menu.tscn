@@ -1,0 +1,123 @@
+[gd_scene format=3 uid="uid://cwmjot8gqib8v"]
+
+[ext_resource type="PackedScene" uid="uid://bo44a0saf13ub" path="res://ui/worldgen/map_preview.tscn" id="2_3bwbf"]
+[ext_resource type="PackedScene" uid="uid://qwr66yprcsrl" path="res://shared/map.tscn" id="3_3bwbf"]
+
+[node name="WorldgenMenu" type="Control" unique_id=368895412]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Sliders" type="GridContainer" parent="." unique_id=940122278]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 12.0
+offset_right = 577.0
+offset_bottom = 164.0
+columns = 2
+
+[node name="Label" type="Label" parent="Sliders" unique_id=865666409]
+layout_mode = 2
+text = "Mountain % "
+horizontal_alignment = 2
+
+[node name="pct_mnt_slider" type="HSlider" parent="Sliders" unique_id=459628447]
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.0
+value = 0.4
+
+[node name="Label2" type="Label" parent="Sliders" unique_id=1873530369]
+layout_mode = 2
+text = "Water %"
+horizontal_alignment = 2
+
+[node name="pct_water_slider" type="HSlider" parent="Sliders" unique_id=42658901]
+layout_mode = 2
+max_value = 1.0
+step = 0.0
+value = 0.35
+
+[node name="Label4" type="Label" parent="Sliders" unique_id=1206327653]
+layout_mode = 2
+text = "Cell Size"
+horizontal_alignment = 2
+
+[node name="cellsize_slider" type="HSlider" parent="Sliders" unique_id=1736898155]
+layout_mode = 2
+min_value = 10.0
+max_value = 30.0
+value = 15.0
+
+[node name="Label3" type="Label" parent="Sliders" unique_id=873264722]
+layout_mode = 2
+text = "Cells x"
+horizontal_alignment = 2
+
+[node name="width_slider" type="HSlider" parent="Sliders" unique_id=1380607678]
+layout_mode = 2
+min_value = 4.0
+max_value = 32.0
+value = 8.0
+
+[node name="Label5" type="Label" parent="Sliders" unique_id=865637101]
+layout_mode = 2
+text = "Cells y"
+horizontal_alignment = 2
+
+[node name="height_slider" type="HSlider" parent="Sliders" unique_id=903932870]
+layout_mode = 2
+min_value = 10.0
+max_value = 30.0
+value = 15.0
+
+[node name="Label6" type="Label" parent="Sliders" unique_id=1630643349]
+layout_mode = 2
+text = "Seed"
+horizontal_alignment = 2
+
+[node name="VSeparator" type="HBoxContainer" parent="Sliders" unique_id=1286592430]
+layout_mode = 2
+
+[node name="LineEdit" type="LineEdit" parent="Sliders/VSeparator" unique_id=1328283327]
+layout_mode = 2
+size_flags_horizontal = 3
+emoji_menu_enabled = false
+flat = true
+
+[node name="Button" type="Button" parent="Sliders/VSeparator" unique_id=1816701064]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.25
+
+[node name="Label" type="Label" parent="Sliders/VSeparator/Button" unique_id=162541780]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Randomize"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="." unique_id=175731152]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -410.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = 410.0
+grow_horizontal = 0
+
+[node name="MapPreview" parent="AspectRatioContainer" unique_id=1960605651 node_paths=PackedStringArray("map") instance=ExtResource("2_3bwbf")]
+layout_mode = 2
+map = NodePath("../../Map")
+
+[node name="Map" parent="." unique_id=829619776 instance=ExtResource("3_3bwbf")]
