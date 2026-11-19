@@ -20,10 +20,6 @@ glow_enabled = true
 [node name="MainScene" type="Node3D" unique_id=452344012]
 
 [node name="Map" parent="." unique_id=829619776 instance=ExtResource("3_gyfs4")]
-width = 10
-height = 10
-cell_size = 10.0
-cell_resolution = 64.0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1705001911]
 environment = SubResource("Environment_gyfs4")

@@ -7,16 +7,19 @@ enum terrain_types { land, water, mountain }
 		
 @export var height : int = 8
 		
-@export var cell_size: float = 8.0
+@export var cell_size: float = 12.0
 
-@export var cell_resolution: float = 32.0
+@export var cell_resolution: float = 16.0
 
 @onready var terrain = $terrain
+@onready var water = $water.mesh as PlaneMesh
 
-@export_range(0.0, 1.0, 0.05) var land_height := 0.40
-@export_range(0.0, 1.0, 0.05) var mountain_height := 0.60
+@export var amplification: float = 8.0
 
-@export var noise_resolution: float = 20.0
+@export_range(0.0, 1.0, 0.05) var land_height := 0.35
+@export_range(0.0, 1.0, 0.05) var mountain_height := 0.6
+
+@export var noise_resolution: float = 16.0
 var height_noise: FastNoiseLite = FastNoiseLite.new()
 var biome_noise: FastNoiseLite = FastNoiseLite.new()
 
@@ -25,13 +28,13 @@ var cells : PackedByteArray = [0]
 @export var biome_ease_height := 0.15
 
 func biome_value_to_height(val: float) -> float:
-	var m = 1.0
+	var m = amplification
 	var l = 0.0
-	var w = -0.5
+	var w = -amplification * 0.75
 	var result = 0.0
 	
 	if (val > mountain_height+biome_ease_height):
-		result = m
+		result = lerpf(m , m*4, (val-(mountain_height+biome_ease_height))) 
 	elif (val > mountain_height):
 		result = lerpf(l, m, (1.0/biome_ease_height)*(val-(mountain_height)))
 	elif (val > land_height):
@@ -43,21 +46,22 @@ func biome_value_to_height(val: float) -> float:
 	return result
 
 func update_mesh():
+	
 	var plane := PlaneMesh.new()
 	plane.subdivide_depth = height*cell_resolution
 	plane.subdivide_width = width*cell_resolution
 	plane.size = Vector2(width*cell_size, height*cell_size)
+	water.size = Vector2(width*cell_size, height*cell_size)
 	
 	var plane_arrays := plane.get_mesh_arrays()
 	var vertex_array: PackedVector3Array = plane_arrays[ArrayMesh.ARRAY_VERTEX]
-	var normal_array: PackedVector3Array = plane_arrays[ArrayMesh.ARRAY_NORMAL]
 	for i in vertex_array.size():
 		var vertex := vertex_array[i]
 		var celltype: terrain_types = pos_to_tile_type(vertex)
 		if height_noise and biome_noise:
 			var biome_val = get_biome_value(Vector2(vertex.x, vertex.z))
 			var h = get_height(Vector2(vertex.x, vertex.z))
-			var tile_location = pos_to_tile(vertex*0.9)
+			var tile_location = pos_to_tile(vertex)
 			var tile_index = tile_location.x + tile_location.y * height
 			if (biome_val > mountain_height):
 				cells[tile_index] = terrain_types.mountain
@@ -65,14 +69,18 @@ func update_mesh():
 				cells[tile_index] = terrain_types.land
 			else:
 				cells[tile_index] = terrain_types.water
-			vertex.y += biome_value_to_height(h) + get_height(Vector2(vertex.x, vertex.z))
+			vertex.y += biome_value_to_height(biome_val) + 0.5 # + h
 			
-		normal_array[i] = get_normal(Vector2(vertex.x, vertex.z))
 		vertex_array[i] = vertex
 	
 	var array_mesh := ArrayMesh.new()
 	array_mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, plane_arrays)
 	terrain.mesh = array_mesh
+	var waterplane := PlaneMesh.new()
+	waterplane.size = Vector2(
+		width * cell_size,
+		height * cell_size
+	)
 
 func pos_to_tile(pos: Vector3) -> Vector2i:
 	var relative =  pos - global_position 
@@ -95,22 +103,7 @@ func get_biome_value(pos: Vector2):
 	return (1.0+biome_noise.get_noise_2d(pos.x*noise_resolution/8.0, pos.y*noise_resolution/8.0))/2.0
 	
 func get_height(pos: Vector2):
-	return (1.0+biome_noise.get_noise_2d(pos.x*noise_resolution, pos.y*noise_resolution))/2.0
-	
-func get_normal(pos: Vector2) -> Vector3:
-	const epsilon = 0.2
-	var v1 = Vector3(pos.x, get_biome_value(pos + Vector2(-epsilon, -epsilon/2.0)), pos.y)
-	var v2 = Vector3(pos.x, get_biome_value(pos + Vector2(epsilon, -epsilon/2.0)), pos.y)
-	var v3 = Vector3(pos.x, get_biome_value(pos + Vector2(0.0, epsilon/2.0)), pos.y)
-	var result = Vector3(0.0, 1.0, 0.0)
-	var a = v1-v2
-	var b = v1-v3
-	result.x = a.y * b.z - a.z * b.y
-	result.y = a.z * b.x - a.x * b.z
-	result.z = a.x * b.y - a.y * b.x
-	if result.y < 0:
-		result *= -1.0
-	return result
+	return (height_noise.get_noise_2d(pos.x*noise_resolution, pos.y*noise_resolution))*2.0
 
 func pos_to_tile_type(pos: Vector3) -> terrain_types:
 	var relative =  pos - global_position 
