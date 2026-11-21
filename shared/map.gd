@@ -5,13 +5,15 @@ enum terrain_types { land, water, mountain }
 
 signal map_regenerated
 
-@export var width : int = 8
-		
-@export var height : int = 8
-		
-@export var cell_size: float = 15.0
+@export var geometry_enable : bool = true
 
-@export var cell_resolution: float = 16.0
+@export var width : int = 16
+		
+@export var height : int = 16
+		
+@export var cell_size: float = 7.5
+
+@export var cell_resolution: float = 8.0
 
 @onready var terrain = $terrain
 @onready var water = $water.mesh as PlaneMesh
@@ -20,7 +22,7 @@ signal map_regenerated
 @export var seed: int = 0
 
 @export_range(0.0, 1.0, 0.05) var land_height := 0.35
-@export_range(0.0, 1.0, 0.05) var mountain_height := 0.575
+@export_range(0.0, 1.0, 0.05) var mountain_height := 0.55
 
 @export var noise_resolution: float = 16.0
 var height_noise: FastNoiseLite = FastNoiseLite.new()
@@ -28,7 +30,7 @@ var biome_noise: FastNoiseLite = FastNoiseLite.new()
 
 var cells : PackedByteArray = [0]
 
-@export var biome_ease_height := 0.15
+@export var biome_ease_height := 0.1
 
 func biome_value_to_height(val: float) -> float:
 	var m = amplification
@@ -49,7 +51,6 @@ func biome_value_to_height(val: float) -> float:
 	return result
 
 func update_mesh():
-	
 	var plane := PlaneMesh.new()
 	plane.subdivide_depth = height*cell_resolution
 	plane.subdivide_width = width*cell_resolution
@@ -63,14 +64,6 @@ func update_mesh():
 		if height_noise and biome_noise:
 			var biome_val = get_biome_value(Vector2(vertex.x, vertex.z))
 			var h = get_height(Vector2(vertex.x, vertex.z))
-			var tile_location = pos_to_tile(vertex)
-			var tile_index = tile_location.x + tile_location.y * height
-			if (biome_val > mountain_height):
-				cells[tile_index] = terrain_types.mountain
-			elif (biome_val > land_height):
-				cells[tile_index] = terrain_types.land
-			else:
-				cells[tile_index] = terrain_types.water
 			vertex.y += biome_value_to_height(biome_val) + 0.5 # + h
 			
 		vertex_array[i] = vertex
@@ -123,23 +116,36 @@ func get_tile_index(x: int, y: int):
 	return cells[x+y*width]
 
 func regenerate_map():
-	generate_grid()
-	update_mesh()
-	map_regenerated.emit()
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	seed = randi()
 	biome_noise.seed = seed
 	if (seed == INT64_MAX):
 		height_noise.seed = INT64_MIN
 	else:
 		height_noise.seed += 1
+	generate_grid()
+	if (geometry_enable):
+		update_mesh()
+	map_regenerated.emit()
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	seed = randi()
 	regenerate_map()
 
 func generate_grid():
 	cells.clear()
 	cells.resize(width*height)
+	var t_width : float = float(width)*cell_size
+	var t_height : float = float(height)*cell_size
+	for i in width*height:
+		var x: float = float(i%width)*cell_size + cell_size/2.0 - t_width/2
+		var y: float = float(i/width)*cell_size + cell_size/2.0 - t_height/2
+		var biome_val: float = get_biome_value(Vector2(x, y))
+		if (biome_val < land_height):
+			cells[i] = terrain_types.water
+		elif (biome_val < mountain_height):
+			cells[i] = terrain_types.land
+		else:
+			cells[i] = terrain_types.mountain
 	
 
 
