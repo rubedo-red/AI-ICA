@@ -143,5 +143,19 @@ grow_horizontal = 0
 layout_mode = 2
 map = NodePath("../../Map")
 
+[node name="Button" type="Button" parent="." unique_id=2041835830]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -225.0
+offset_top = -75.0
+offset_right = -25.0
+offset_bottom = -25.0
+text = "Generate
+"
+
 [node name="Map" parent="." unique_id=829619776 instance=ExtResource("3_3bwbf")]
 geometry_enable = false

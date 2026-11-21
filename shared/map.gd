@@ -128,7 +128,8 @@ func regenerate_map():
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	seed = randi()
+	if (seed == 0):
+		seed = randi()
 	regenerate_map()
 
 func generate_grid():
