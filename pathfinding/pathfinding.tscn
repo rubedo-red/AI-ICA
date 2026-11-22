@@ -69,11 +69,11 @@ layout_mode = 2
 
 [node name="Button2" type="Button" parent="VBoxContainer" unique_id=1256288977]
 layout_mode = 2
-text = "Teleport Player to Creep"
+text = "Teleport Camera to Creep"
 
 [node name="Button3" type="Button" parent="VBoxContainer" unique_id=2051424714]
 layout_mode = 2
-text = "Teleport Player to Waypoint (End Destination)"
+text = "Teleport Camera to Waypoint (End Destination)"
 
 [node name="Button4" type="Button" parent="VBoxContainer" unique_id=930874553]
 layout_mode = 2
