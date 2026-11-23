@@ -9,8 +9,8 @@ const tile_scene := preload("res://ui/worldgen/minimap_tile.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	cells.add_theme_constant_override("h_separation", 4)
-	cells.add_theme_constant_override("v_separation", 4)
+	cells.add_theme_constant_override("h_separation", 0)
+	cells.add_theme_constant_override("v_separation", 0)
 	for i in 64:
 		var cell_rect : ColorRect = ColorRect.new()
 		cell_rect.size_flags_horizontal = Control.SIZE_EXPAND_FILL

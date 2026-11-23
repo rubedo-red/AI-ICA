@@ -23,3 +23,7 @@ material_override = SubResource("ShaderMaterial_gyfs4")
 mesh = SubResource("ArrayMesh_f4d1s")
 
 [node name="water" parent="." unique_id=1564135702 instance=ExtResource("3_qhd1b")]
+
+[node name="body" type="StaticBody3D" parent="." unique_id=905222197]
+
+[node name="collision" type="CollisionShape3D" parent="body" unique_id=1498321326]
