@@ -22,6 +22,13 @@ extends Node3D
 @export var _debug_print_current_tile: bool = false
 @export_subgroup("Breadth-first Search")
 
+# TODO: Lazy ! Scope this properly!
+var valid_path: Array[Vector2i]
+
+## @experimental: Yep
+var _debug_current_path_index: int = 0
+## @experimental: For debug menu
+@onready var auto_move_creep: CheckBox = $HBoxContainer2/VBoxContainer/CheckBox
 
 func _ready() -> void:
 	@warning_ignore("narrowing_conversion")
@@ -40,11 +47,21 @@ func _on_button_button_up() -> void:
 		return
 	if creep == null:
 		push_error("Please supply a creep so we can send it to a destination.")
+		return
 	if waypoint == null:
 		push_error("Please supply a waypoint so it can be a destination.")
+		return
+	
+	$HBoxContainer2/VBoxContainer2/CreepPositionLabel.set_text("Creep Position: " + str(creep.get_position()))
+	$HBoxContainer2/VBoxContainer2/WaypointPositionLabel.set_text("Destination Position: " + str(waypoint.get_position()))
+	
+	# Clear old saved path (potentially computed by other algorithms)
+	valid_path.clear()
+	$HBoxContainer2/VBoxContainer2/ScrollContainer/PathLabel.set_text("Valid Path: NOT COMPUTED")
+	_debug_current_path_index = 0
 	
 	# TODO: Warning because get_node() returns a node type, but we want an OptionButton type
-	match $VBoxContainer/HBoxContainer/OptionButton.get_selected():
+	match $HBoxContainer2/VBoxContainer/HBoxContainer/OptionButton.get_selected():
 		0:
 			depth_first_search()
 		1:
@@ -58,6 +75,12 @@ func _on_button_button_up() -> void:
 			pass
 		_:
 			push_error("Invalid index")
+	
+	if valid_path.is_empty():
+		push_warning("valid_path is empty.. Something went wrong :(")
+		return
+	
+	$HBoxContainer2/VBoxContainer2/ScrollContainer/PathLabel.set_text("Valid Path: " + str(valid_path))
 
 
 ## @deprecated: Map was given a class name in commit [url=https://github.com/rubedo-red/AI-ICA/commit/31d54d6a6ca002f17dd90a4119c7c4533efbd4c9#diff-0b5ca7d95fad14bec772b88930902f37eb1590a31cd69872963220be008e94f6]31d54d6[/url].
@@ -95,30 +118,37 @@ func _dfs_search_next(current_tile: Vector2i, end_tile: Vector2i, searched_tiles
 	if _debug_print_current_tile:
 		print_debug("Searching tile ", current_tile)
 	
-	creep.set_position(map.tile_to_world_position(current_tile))
-	print_debug("Creep moved to tile: ", current_tile)
-	print_debug("Creep should now be at ", map.tile_to_world_position(current_tile))
-	print_debug("Is actually at ", creep.get_position())
+	if auto_move_creep.is_pressed():
+		creep.set_position(map.tile_to_world_position(current_tile))
+		print_debug("Creep moved to tile: ", current_tile)
+		print_debug("Creep should now be at ", map.tile_to_world_position(current_tile))
+		print_debug("Is actually at ", creep.get_position())
 	
 	if current_tile == end_tile:
+		valid_path.push_front(current_tile)
 		return true
 	
 	searched_tiles[current_tile.y * map.width + current_tile.x] = true
 	
 	# We CAN progress if we are NOT going out of map bounds
 	# or if we are NOT going onto a tile we've already searched
+	# TODO: There are duplicate push_fronts(current_tile)
 	if not (current_tile.x + 1 >= map.width or searched_tiles[current_tile.y * map.width + current_tile.x + 1] == true):
 		#creep.set_position(Vector3(map.))
 		if _dfs_search_next(Vector2i(current_tile.x + 1, current_tile.y), end_tile, searched_tiles):
+			valid_path.push_front(current_tile)
 			return true
 	if not (current_tile.y - 1 < 0 or searched_tiles[(current_tile.y - 1) * map.width + current_tile.x] == true):
 		if _dfs_search_next(Vector2i(current_tile.x, current_tile.y - 1), end_tile, searched_tiles):
+			valid_path.push_front(current_tile)
 			return true
 	if not (current_tile.y + 1 >= map.height or searched_tiles[(current_tile.y + 1) * map.width + current_tile.x] == true):
 		if _dfs_search_next(Vector2i(current_tile.x, current_tile.y + 1), end_tile, searched_tiles):
+			valid_path.push_front(current_tile)
 			return true
 	if not (current_tile.x - 1 < 0 or searched_tiles[current_tile.y * map.width + current_tile.x - 1] == true):
 		if _dfs_search_next(Vector2i(current_tile.x - 1, current_tile.y), end_tile, searched_tiles):
+			valid_path.push_front(current_tile)
 			return true
 	
 	# If we are completly stuck and have no other tiles left to go
@@ -199,7 +229,7 @@ func _on_button_3_button_up() -> void:
 		))
 	
 	print_debug("CameraPlayer3D's was teleported to: ", $CameraPlayer3D.get_position())
-	print_debug("which is tile ", map.pos_to_tile($CameraPlayer3D.get_position()), " on the grid!")
+	print_debug("Which is tile ", map.pos_to_tile($CameraPlayer3D.get_position()), " on the grid!")
 
 
 # Mysterious teleport creep to waypoint function
@@ -208,3 +238,55 @@ func _on_button_4_button_up() -> void:
 	
 	print_debug("Creep is now at ", creep.get_position())
 	print_debug("Waypoint is at ", waypoint.get_position())
+
+
+func _on_button_5_button_up() -> void:
+	_debug_current_path_index += 1
+	
+	if valid_path.is_empty():
+		push_error("Path is empty. Please run an algorithm!")
+		return
+	
+	if not _debug_current_path_index < valid_path.size() - 1:
+		push_warning("At the end of the path!")
+		return
+	
+	creep.set_position(map.tile_to_world_position(valid_path[_debug_current_path_index]))
+	print_debug(_debug_current_path_index)
+	print_debug(valid_path[_debug_current_path_index])
+
+
+func _on_button_6_button_up() -> void:
+	creep.set_position(Vector3.ZERO)
+
+
+#region Creep Grid Movement
+func _on_cgm_left_button_up() -> void:
+	creep_grid_movement(Vector2i(-1, 0))
+
+
+func _on_cgm_up_button_up() -> void:
+	creep_grid_movement(Vector2i(0, -1))
+
+
+func _on_cgm_down_button_up() -> void:
+	creep_grid_movement(Vector2i(0, 1))
+
+
+func _on_cgm_right_button_up() -> void:
+	creep_grid_movement(Vector2i(1, 0))
+
+func creep_grid_movement(direction: Vector2i):
+	direction = direction.clamp(-Vector2.ONE, Vector2.ONE)
+	
+	# Bounds check
+	var current_tile: Vector2i = map.pos_to_tile(creep.get_position())
+	
+	if current_tile.x + direction.x >= map.width or current_tile.x - direction.x < 0 or \
+	current_tile.y + direction.y >= map.height or current_tile.y - direction.y < 0:
+		push_warning("This would move us out of map bounds. Not moving.")
+		return
+	
+	creep.set_position(map.tile_to_world_position(current_tile + direction))
+
+#endregion

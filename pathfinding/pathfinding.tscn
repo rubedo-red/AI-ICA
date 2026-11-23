@@ -36,18 +36,24 @@ environment = SubResource("Environment_cnpgj")
 transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
 shadow_enabled = true
 
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=873881677]
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="HBoxContainer2" type="HBoxContainer" parent="." unique_id=354910049]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=57532507]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer2" unique_id=873881677]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer" unique_id=1850883671]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer2/VBoxContainer" unique_id=57532507]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer2/VBoxContainer/HBoxContainer" unique_id=1850883671]
 layout_mode = 2
 text = "Algorithm"
 
-[node name="OptionButton" type="OptionButton" parent="VBoxContainer/HBoxContainer" unique_id=1039474321]
+[node name="OptionButton" type="OptionButton" parent="HBoxContainer2/VBoxContainer/HBoxContainer" unique_id=1039474321]
 layout_mode = 2
 selected = 0
 item_count = 4
@@ -60,24 +66,95 @@ popup/item_2/id = 2
 popup/item_3/text = "A*"
 popup/item_3/id = 3
 
-[node name="Button" type="Button" parent="VBoxContainer" unique_id=75683016]
+[node name="Button" type="Button" parent="HBoxContainer2/VBoxContainer" unique_id=75683016]
 layout_mode = 2
 text = "Start"
 
-[node name="HSeparator" type="HSeparator" parent="VBoxContainer" unique_id=1154804397]
+[node name="Button5" type="Button" parent="HBoxContainer2/VBoxContainer" unique_id=1786219606]
+layout_mode = 2
+text = "Send Creep to next valid position along the path"
+
+[node name="HSeparator" type="HSeparator" parent="HBoxContainer2/VBoxContainer" unique_id=1154804397]
 layout_mode = 2
 
-[node name="Button2" type="Button" parent="VBoxContainer" unique_id=1256288977]
+[node name="Button6" type="Button" parent="HBoxContainer2/VBoxContainer" unique_id=1125911269]
+layout_mode = 2
+text = "Reset Creep position"
+
+[node name="CheckBox" type="CheckBox" parent="HBoxContainer2/VBoxContainer" unique_id=135594208]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Auto-move Creep"
+
+[node name="HSeparator2" type="HSeparator" parent="HBoxContainer2/VBoxContainer" unique_id=675246187]
+layout_mode = 2
+
+[node name="Button2" type="Button" parent="HBoxContainer2/VBoxContainer" unique_id=1256288977]
 layout_mode = 2
 text = "Teleport Camera to Creep"
 
-[node name="Button3" type="Button" parent="VBoxContainer" unique_id=2051424714]
+[node name="Button3" type="Button" parent="HBoxContainer2/VBoxContainer" unique_id=2051424714]
 layout_mode = 2
 text = "Teleport Camera to Waypoint (End Destination)"
 
-[node name="Button4" type="Button" parent="VBoxContainer" unique_id=930874553]
+[node name="Button4" type="Button" parent="HBoxContainer2/VBoxContainer" unique_id=930874553]
 layout_mode = 2
 text = "Teleport creep to waypoint"
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="HBoxContainer2/VBoxContainer" unique_id=461801883]
+layout_mode = 2
+size_flags_vertical = 10
+
+[node name="Label" type="Label" parent="HBoxContainer2/VBoxContainer/VBoxContainer3" unique_id=1765414330]
+layout_mode = 2
+text = "Creep Grid Movement"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer2/VBoxContainer/VBoxContainer3" unique_id=435860512]
+layout_mode = 2
+
+[node name="CGMLeft" type="Button" parent="HBoxContainer2/VBoxContainer/VBoxContainer3/HBoxContainer2" unique_id=1821483542]
+layout_mode = 2
+text = "Left"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer2/VBoxContainer/VBoxContainer3/HBoxContainer2" unique_id=71684115]
+layout_mode = 2
+
+[node name="CGMUp" type="Button" parent="HBoxContainer2/VBoxContainer/VBoxContainer3/HBoxContainer2/VBoxContainer" unique_id=233863665]
+layout_mode = 2
+text = "Up"
+
+[node name="CGMDown" type="Button" parent="HBoxContainer2/VBoxContainer/VBoxContainer3/HBoxContainer2/VBoxContainer" unique_id=831741566]
+layout_mode = 2
+text = "Down"
+
+[node name="CGMRight" type="Button" parent="HBoxContainer2/VBoxContainer/VBoxContainer3/HBoxContainer2" unique_id=392051099]
+layout_mode = 2
+text = "Right"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer2" unique_id=2058313439]
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 0
+
+[node name="CreepPositionLabel" type="Label" parent="HBoxContainer2/VBoxContainer2" unique_id=167253687]
+layout_mode = 2
+text = "Creep Position: "
+
+[node name="WaypointPositionLabel" type="Label" parent="HBoxContainer2/VBoxContainer2" unique_id=177583771]
+layout_mode = 2
+text = "Destination Position: "
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer2/VBoxContainer2" unique_id=34202747]
+custom_minimum_size = Vector2(256, 256)
+layout_mode = 2
+
+[node name="PathLabel" type="Label" parent="HBoxContainer2/VBoxContainer2/ScrollContainer" unique_id=1597637232]
+custom_minimum_size = Vector2(-1, -1)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Valid Path: "
+autowrap_mode = 3
 
 [node name="CameraPlayer3D" parent="." unique_id=1844049760 instance=ExtResource("2_sq7jb")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -3.707, 5.5, 0)
@@ -93,7 +170,13 @@ _debug_visible = true
 _debug_range_visible = true
 metadata/_custom_type_script = "uid://be12oq4pmui07"
 
-[connection signal="button_up" from="VBoxContainer/Button" to="." method="_on_button_button_up"]
-[connection signal="button_up" from="VBoxContainer/Button2" to="." method="_on_button_2_button_up"]
-[connection signal="button_up" from="VBoxContainer/Button3" to="." method="_on_button_3_button_up"]
-[connection signal="button_up" from="VBoxContainer/Button4" to="." method="_on_button_4_button_up"]
+[connection signal="button_up" from="HBoxContainer2/VBoxContainer/Button" to="." method="_on_button_button_up"]
+[connection signal="button_up" from="HBoxContainer2/VBoxContainer/Button5" to="." method="_on_button_5_button_up"]
+[connection signal="button_up" from="HBoxContainer2/VBoxContainer/Button6" to="." method="_on_button_6_button_up"]
+[connection signal="button_up" from="HBoxContainer2/VBoxContainer/Button2" to="." method="_on_button_2_button_up"]
+[connection signal="button_up" from="HBoxContainer2/VBoxContainer/Button3" to="." method="_on_button_3_button_up"]
+[connection signal="button_up" from="HBoxContainer2/VBoxContainer/Button4" to="." method="_on_button_4_button_up"]
+[connection signal="button_up" from="HBoxContainer2/VBoxContainer/VBoxContainer3/HBoxContainer2/CGMLeft" to="." method="_on_cgm_left_button_up"]
+[connection signal="button_up" from="HBoxContainer2/VBoxContainer/VBoxContainer3/HBoxContainer2/VBoxContainer/CGMUp" to="." method="_on_cgm_up_button_up"]
+[connection signal="button_up" from="HBoxContainer2/VBoxContainer/VBoxContainer3/HBoxContainer2/VBoxContainer/CGMDown" to="." method="_on_cgm_down_button_up"]
+[connection signal="button_up" from="HBoxContainer2/VBoxContainer/VBoxContainer3/HBoxContainer2/CGMRight" to="." method="_on_cgm_right_button_up"]
