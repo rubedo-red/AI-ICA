@@ -1,6 +1,9 @@
 @icon("camera_player_3d.svg")
 class_name CameraPlayer3D
 extends CharacterBody3D
+
+@export var manager: UnitManager
+
 ## The player maintains their Y level while moving and looking.
 ## They will go up and down using the upwards and downwards input actions.
 
@@ -29,6 +32,25 @@ extends CharacterBody3D
 var move_vector: Vector2 = Vector2.ZERO
 var vertical_movement: float = 0.0
 
+func _screen_to_world(screen_pos: Vector2) -> Vector3:
+	var camera := get_viewport().get_camera_3d()
+	if camera == null:
+		return Vector3.ZERO
+
+	var origin := camera.project_ray_origin(screen_pos)
+	var direction := camera.project_ray_normal(screen_pos)
+
+	var ray_length := 2000.0
+	var target := origin + direction * ray_length
+
+	var query := PhysicsRayQueryParameters3D.create(origin, target)
+	query.collide_with_areas = true
+	query.collide_with_bodies = true
+	var result := get_world_3d().direct_space_state.intersect_ray(query)
+	if result.has("position"):
+		return result["position"]
+	return target
+
 func _input(event: InputEvent) -> void:
 	move_vector = Input.get_vector("camera_player_3d_move_leftwards", "camera_player_3d_move_rightwards", "camera_player_3d_move_forwards", "camera_player_3d_move_backwards")
 	vertical_movement = Input.get_action_strength("camera_player_3d_move_upwards") - Input.get_action_strength("camera_player_3d_move_downwards")
@@ -40,10 +62,20 @@ func _input(event: InputEvent) -> void:
 			look((event as InputEventMouseMotion).screen_relative)
 	else:
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		if event.pressed:
+			var screen_pos = get_viewport().get_mouse_position()
+			var world_pos = _screen_to_world(screen_pos)
+			print("Mouse Click: ", world_pos)
+			manager.spawn_unit(world_pos)
+
 
 
 func _physics_process(_delta: float) -> void:
 	move(move_vector)
+
+
 
 
 func move(vector: Vector2) -> void:

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://ytodv04oaor"]
 
-[ext_resource type="Script" uid="uid://creyoy7ypt08w" path="res://unit.gd" id="1_btf8p"]
+[ext_resource type="Script" uid="uid://creyoy7ypt08w" path="res://Flocking/unit.gd" id="1_btf8p"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ctwoc"]
 

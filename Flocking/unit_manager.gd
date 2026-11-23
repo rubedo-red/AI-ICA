@@ -6,6 +6,24 @@ var army_colour
 var army_colour_a_0
 var army_colour_a_1
 
+
+
+func spawn_unit(newPosition:Vector3) ->void:
+	var scene: PackedScene = load("res://Flocking/unit.tscn")
+	if scene == null:
+		push_error("Failed to load boid: res://Flocking/unit.tscn")
+		return
+	var instance: Unit = scene.instantiate()
+	instance.position = newPosition
+	instance.position.y+=10
+	instance.name = "Unit"+str(units.size()+1)
+	instance.manager = self
+	instance.map = $"../Map"
+	instance.startingBoids = 10
+	instance.cohesionSize=3
+	add_child(instance)
+	add_unit(instance)
+
 func add_unit(newUnit:Node3D) -> void:
 	if not units.has(newUnit):
 		print("Added unit: ", newUnit.name)
@@ -42,4 +60,5 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	
 	pass

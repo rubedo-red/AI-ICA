@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://t7ygvn2r70k7"]
 
-[ext_resource type="Script" uid="uid://et3m5gnqgxja" path="res://boid.gd" id="1_xur1n"]
+[ext_resource type="Script" uid="uid://et3m5gnqgxja" path="res://Flocking/boid.gd" id="1_xur1n"]
 [ext_resource type="PackedScene" uid="uid://cdtihabsqsq7x" path="res://assets/models/Guy_v0.1.glb" id="2_rwlh6"]
 [ext_resource type="Texture2D" uid="uid://dibs7dl7bc63d" path="res://assets/models/Guy_v0_Material Base Color.png" id="3_dg2sk"]
 

@@ -1,9 +1,10 @@
+class_name Unit
 extends Node3D
 
 #store boids belonging to the unit within an array
 var boidArray: Array[Node3D]=[]
 #Starting number of boids when unit is spawned in
-var startingBoids
+
 #Previous terrain on last tick stored in an int
 var previousTerrain: int = -1
 #Previous position on the last tick stored as a Vector3d
@@ -20,13 +21,14 @@ var overlapping_units: Array[Node3D]
 @export var pullStrength:float
 @export var cohesionSize:float
 @export var seperationSize:float
+@export var startingBoids:int
 
 
 @export var map: Node3D 
 
 @export var manager: UnitManager
 func add_manager() -> void:
-	manager = $"../unit_manager"
+	
 	if manager:
 		manager.add_unit(self)
 	else:
@@ -50,7 +52,7 @@ func _calc_average_pos() -> Vector3:
 	return pos_total.snapped(Vector3(0.001,0.001,0.001))
 
 func _spawn_boid(newPosition: Vector3, id: int) -> void:
-	var scene: PackedScene = load("res://boid.tscn")
+	var scene: PackedScene = load("res://Flocking/boid.tscn")
 	if scene == null:
 		push_error("Failed to load boid: res://boid.tscn")
 		return
@@ -67,14 +69,16 @@ func _spawn_boid(newPosition: Vector3, id: int) -> void:
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	#manager = $"../UnitManager"
+	#map = $"../Map"
 	add_manager()
 	var b_mat := StandardMaterial3D.new()
 	var m = $MeshInstance3D
 	b_mat.albedo_color = boid_colour
 	b_mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	b_mat.albedo_color.a = 0.5
+	b_mat.albedo_color.a = 0.3
 	m.set_surface_override_material(0,b_mat) 
-	map = $"../Map"
+	
 	var x
 	var z
 	var angle_step = 2*3.14/startingBoids
@@ -87,7 +91,6 @@ func _ready() -> void:
 		
 		_spawn_boid(pos, i)
 	pass 
-
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

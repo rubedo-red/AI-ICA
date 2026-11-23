@@ -41,7 +41,7 @@ func _direction_move(delta:float):
 	global_translate(forward_dir*randf_range(1.0,1.5)*delta)
 
 # keeps all boids within range of one another by using their average position and pulling them back when they leave the cohesion bubble
-func _cohesion_test(dist : float, parent_pos: Vector3, delta:float ) ->bool:
+func _cohesion_test(dist : float, parent_pos: Vector3, delta:float , strength: float) ->bool:
 	var dir_to_parent: Vector3 = (parent_pos - global_transform.origin).normalized()
 	var angle_r = forward_dir.angle_to(dir_to_parent)
 	var angle_d = rad_to_deg(angle_r)
@@ -51,13 +51,13 @@ func _cohesion_test(dist : float, parent_pos: Vector3, delta:float ) ->bool:
 		if angle_d>10:
 			var cross_dir = forward_dir.cross(dir_to_parent)
 			var turn_sign = sign(cross_dir.y)
-			rotation.y = lerp_angle(rotation.y, rotation.y + angle_r * turn_sign, delta * 2.5)
+			rotation.y = lerp_angle(rotation.y, rotation.y + angle_r * turn_sign, delta * strength)
 			mat.albedo_color = Color(1, 0, 0)
 			return false
 	return true
 
-
-func _seperation_test(delta:float)->bool:
+# makes boids stay away from each other
+func _seperation_test(delta:float, strength: float)->bool:
 	
 	var dir_to_other: Vector3 
 	if distance >cohesionSize:
@@ -74,7 +74,7 @@ func _seperation_test(delta:float)->bool:
 			mat.albedo_color = Color(0.917, 0.317, 0.444, 1.0)
 			var cross_dir = forward_dir.cross(dir_to_other)
 			var turn_sign = sign(cross_dir.y)
-			rotation.y = lerp_angle(rotation.y, rotation.y - angle_r * turn_sign, delta * 1.5)
+			rotation.y = lerp_angle(rotation.y, rotation.y - angle_r * turn_sign, delta * strength)
 			mat.albedo_color = Color(1,1,0)
 			return false
 	return true
@@ -119,7 +119,8 @@ func _ready() -> void:
 			mesh_node.set_meta("material_duplicated", true)
 	pass # Replace with function body.
 
-func _bubble_repulsion_test(delta: float) -> bool:
+# finds other units and moves them away from each other
+func _bubble_repulsion_test(delta: float, strength: float) -> bool:
 	
 	if not unit or unit.overlapping_units.is_empty():
 		return true
@@ -145,10 +146,37 @@ func _bubble_repulsion_test(delta: float) -> bool:
 		var cross_dir = forward_dir.cross(push_dir_normalized)
 		var turn_sign = sign(cross_dir.y)
 
-		global_rotation.y = lerp_angle(global_rotation.y, global_rotation.y + angle_r * turn_sign,delta * 1.5)
+		global_rotation.y = lerp_angle(global_rotation.y, global_rotation.y + angle_r * turn_sign,delta * strength)
 		return true
 
 	return true
+
+func _height_test(delta: float, strength: float)->bool:
+	#mat.albedo_color = Color(0.0, 0.0, 0.0, 1.0)
+	if !is_zero_approx(global_position.y - 0.5):
+		#mat.albedo_color = Color(0.0, 12.051, 0.0, 1.0)
+		var targetPos:Vector3
+		const EPSILON:=0.01
+		
+		#print(copyBoids.size())
+		for boid in copyBoids:
+		#	print(boid.global_position)
+			if !abs(boid.global_position.y - 0.5) < EPSILON:
+				targetPos = boid.global_position
+				break
+		#print(targetPos)
+		if targetPos.is_zero_approx():
+		#	mat.albedo_color = Color(9.2, 0.321, 12.051, 1.0)
+			return false
+		
+		var dir_to_target: Vector3 = (targetPos - global_transform.origin).normalized()
+		var angle_r = forward_dir.angle_to(dir_to_target)
+		var cross_dir = forward_dir.cross(dir_to_target)
+		var turn_sign = sign(cross_dir.y)
+		rotation.y = lerp_angle(rotation.y, rotation.y + angle_r * turn_sign, delta * strength)
+		#mat.albedo_color = Color(0.0, 11.568, 14.033, 1.0)
+		return true
+	return false
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -162,14 +190,18 @@ func _process(delta: float) -> void:
 		var ground_point = raycast.get_collision_point()
 		global_position.y = ground_point.y
 
+	var height:bool = _height_test(delta,3)
 	
-	var repulsion:bool = _bubble_repulsion_test(delta)
+	
+	var repulsion:bool = _bubble_repulsion_test(delta,2)
 	if !repulsion:
 		_direction_move(delta) 
 		return
 	
-	var seperation:bool = _seperation_test(delta)
-	var cohesion:bool = _cohesion_test(distance,parent_position,delta)
+	
+	
+	var seperation:bool = _seperation_test(delta,1.5)
+	var cohesion:bool = _cohesion_test(distance,parent_position,delta,3)
 	
 	if !seperation and !cohesion:
 		_direction_move(delta) 
