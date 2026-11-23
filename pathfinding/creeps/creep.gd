@@ -4,6 +4,8 @@ enum Pathfinding_Algorithm { DFS, BFS, DIJKSTRA, ASTAR }
 
 @export var active_algorithm: Pathfinding_Algorithm = Pathfinding_Algorithm.DFS
 
+@onready var pathfinding_aware: PathfindingAware = $PathfindingAware
+
 
 # NOTE: Implemented in Pathfinding scene... Lazily
 #func run_dfs(grid: PathfindingGrid3D) -> bool:

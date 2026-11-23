@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://g6u8vjntas74"]
 
 [ext_resource type="Script" uid="uid://bcsn7l6y4nfyy" path="res://pathfinding/creeps/creep.gd" id="1_7vbw3"]
+[ext_resource type="Script" uid="uid://b3hr66wyufkgk" path="res://pathfinding/pathfinding_aware.gd" id="2_iule8"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_e82rw"]
 
@@ -14,3 +15,7 @@ shape = SubResource("SphereShape3D_e82rw")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1952625935]
 mesh = SubResource("SphereMesh_lrytq")
+
+[node name="PathfindingAware" type="Node" parent="." unique_id=1659864485]
+script = ExtResource("2_iule8")
+metadata/_custom_type_script = "uid://b3hr66wyufkgk"
