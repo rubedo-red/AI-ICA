@@ -1,12 +1,6 @@
 extends Node3D
 
 
-# TODO: Remove all the warning ignores once we ... discuss ... how map.gd was written
-
-
-# TODO: Map has no static type in this early version!!! Fixed in later version!!
-# I used Node3D otherwise Godot thinks I want to export something that only accepts NULL
-# I also ignored unsafe_method_access warnings BECAUSE WE NEED A TYPE FOR THE MAP !!!!!!!!!!!!!!!!!
 @export var map: Map = null
 ## This unit will try and find a waypoint.
 @export var creep: CharacterBody3D = null
