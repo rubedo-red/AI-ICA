@@ -12,7 +12,9 @@ var previousTile
 var overlapping_units: Array[Node3D]
 @export var stop: bool = false
 
-@export var boid_colour: Color = Color(1, 0, 0)
+@export var boid_colour: Color = Color(1, 0, 1)
+@export var boid_accessory_0_colour = Color(1, 0, 1)
+@export var boid_accessory_1_colour = Color(1, 0, 1)
 
 #Boid variables distributed by the unit
 @export var pullStrength:float
@@ -66,6 +68,12 @@ func _spawn_boid(newPosition: Vector3, id: int) -> void:
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	add_manager()
+	var b_mat := StandardMaterial3D.new()
+	var m = $MeshInstance3D
+	b_mat.albedo_color = boid_colour
+	b_mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	b_mat.albedo_color.a = 0.5
+	m.set_surface_override_material(0,b_mat) 
 	map = $"../Map"
 	var x
 	var z

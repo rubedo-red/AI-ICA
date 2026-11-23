@@ -12,6 +12,9 @@ var mat
 var copyBoids
 var unit: Node3D
 
+@onready var raycast: RayCast3D = $RayCast3D
+
+
 
 
 
@@ -21,6 +24,8 @@ func setup( boid_id : int = 0, boid_cohesion_strength : float = 1.0,boid_cohesio
 	cohesionSize = boid_cohesion_size
 	seperationSize = boid_seperation_size
 	var label_node := $CollisionShape3D/MeshInstance3D/bLabel
+	
+	
 	label_node.text = str(id)
 	
 
@@ -51,7 +56,9 @@ func _cohesion_test(dist : float, parent_pos: Vector3, delta:float ) ->bool:
 			return false
 	return true
 
+
 func _seperation_test(delta:float)->bool:
+	
 	var dir_to_other: Vector3 
 	if distance >cohesionSize:
 		return	true
@@ -72,25 +79,35 @@ func _seperation_test(delta:float)->bool:
 			return false
 	return true
 
-
-
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	unit = get_parent()
 	
-	if unit == null or not "boid_colour" in unit:
-		print("Error: Parent node is missing or does not contain 'boid_colour'")
-		return
-	# var boid_mesh = get_node("Guy_v0_1/Cube") as MeshInstance3D
-	# var boid_mat = boid_mesh.get_active_material(0) as StandardMaterial3D	
 	
-	# if boid_mat and not boid_mesh.has_meta("material_duplicated"):
-	#	boid_mat = boid_mat.duplicate() as StandardMaterial3D
-	#	boid_mesh.set_surface_override_material(0, boid_mat)
-	#	boid_mesh.set_meta("material_duplicated", true)
+	
+	
+	
+	for a in $Guy_v0_1.get_children():
 		
-	# if boid_mat:
-	#	boid_mat.albedo_color = unit.boid_colour
+		if a.name.contains("Body"):
+			var b_mat := StandardMaterial3D.new()
+			b_mat.albedo_color = unit.boid_colour
+			a.set_surface_override_material(0,b_mat) 
+			continue
+		var a0_mat := StandardMaterial3D.new()
+		var a1_mat := StandardMaterial3D.new()
+		a0_mat.albedo_color = unit.boid_accessory_0_colour
+		a0_mat.metallic = 1
+		a0_mat.roughness = 0.2
+		a.set_surface_override_material(0,a0_mat) 
+		a1_mat.albedo_color = unit.boid_accessory_1_colour
+		a1_mat.metallic = 0.0
+		a1_mat.roughness = 0.5
+		a.set_surface_override_material(1,a1_mat) 
+		if randi_range(0,3)  == 0 and not a.name.contains("0"):
+			a.visible = false
+	
+	
 	
 	forward_dir = global_transform.basis.z.normalized()
 	rotation.y = randf_range(0,360)
@@ -102,9 +119,8 @@ func _ready() -> void:
 			mesh_node.set_meta("material_duplicated", true)
 	pass # Replace with function body.
 
-
-
 func _bubble_repulsion_test(delta: float) -> bool:
+	
 	if not unit or unit.overlapping_units.is_empty():
 		return true
 
@@ -134,7 +150,6 @@ func _bubble_repulsion_test(delta: float) -> bool:
 
 	return true
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	forward_dir = global_transform.basis.z.normalized()
@@ -142,6 +157,11 @@ func _process(delta: float) -> void:
 	var parent_position = get_parent_node_3d().position
 	distance = global_position.distance_to(parent_position)
 	mat.albedo_color = Color(1,1,1)
+	
+	if raycast.is_colliding():
+		var ground_point = raycast.get_collision_point()
+		global_position.y = ground_point.y
+
 	
 	var repulsion:bool = _bubble_repulsion_test(delta)
 	if !repulsion:
