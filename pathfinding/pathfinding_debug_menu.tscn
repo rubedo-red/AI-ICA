@@ -1,0 +1,155 @@
+[gd_scene format=3 uid="uid://cujyi4i8va0s3"]
+
+[ext_resource type="Script" uid="uid://dqjkdhcw3g3sy" path="res://pathfinding/pathfinding_debug_menu.gd" id="1_rsla2"]
+
+[node name="PathfindingDebugMenu" type="HBoxContainer" unique_id=1177818123]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_rsla2")
+
+[node name="PathfindingButtons" type="VBoxContainer" parent="." unique_id=1480502084]
+layout_mode = 2
+
+[node name="AlgorithmSelectionContainer" type="HBoxContainer" parent="PathfindingButtons" unique_id=796608784]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PathfindingButtons/AlgorithmSelectionContainer" unique_id=683991894]
+layout_mode = 2
+text = "Algorithm"
+
+[node name="OptionButton" type="OptionButton" parent="PathfindingButtons/AlgorithmSelectionContainer" unique_id=1061268875]
+layout_mode = 2
+selected = 0
+item_count = 4
+popup/item_0/text = "BFS (Breadth-first Search)"
+popup/item_0/id = 1
+popup/item_1/text = "DFS (Depth-first Search)"
+popup/item_1/id = 0
+popup/item_2/text = "Dijkstra"
+popup/item_2/id = 2
+popup/item_3/text = "A*"
+popup/item_3/id = 3
+
+[node name="StartAlgorithmButton" type="Button" parent="PathfindingButtons" unique_id=427550467]
+layout_mode = 2
+text = "Start"
+
+[node name="CreepGoToNextPositionButton" type="Button" parent="PathfindingButtons" unique_id=847642098]
+layout_mode = 2
+text = "Send Creep to next valid position along the path"
+
+[node name="HSeparator" type="HSeparator" parent="PathfindingButtons" unique_id=117320231]
+layout_mode = 2
+
+[node name="ResetCreepPositionButton" type="Button" parent="PathfindingButtons" unique_id=1346217550]
+layout_mode = 2
+text = "Reset Creep position"
+
+[node name="AutoMoveCreepCheckBox" type="CheckBox" parent="PathfindingButtons" unique_id=762557692]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Auto-move Creep"
+
+[node name="HSeparator2" type="HSeparator" parent="PathfindingButtons" unique_id=665251180]
+layout_mode = 2
+
+[node name="TeleportCameraToCreepButton" type="Button" parent="PathfindingButtons" unique_id=1429452183]
+layout_mode = 2
+text = "Teleport Camera to Creep"
+
+[node name="TeleportCameraToWaypointButton" type="Button" parent="PathfindingButtons" unique_id=144613655]
+layout_mode = 2
+text = "Teleport Camera to Waypoint (End Destination)"
+
+[node name="TeleportCreepToWaypointButton" type="Button" parent="PathfindingButtons" unique_id=444973489]
+layout_mode = 2
+text = "Teleport creep to waypoint"
+
+[node name="CreepMovementContainer" type="VBoxContainer" parent="PathfindingButtons" unique_id=463915743]
+layout_mode = 2
+size_flags_vertical = 10
+
+[node name="ContainerTitleLabel" type="Label" parent="PathfindingButtons/CreepMovementContainer" unique_id=2053679684]
+layout_mode = 2
+text = "Creep Grid Movement"
+
+[node name="CreepMovementControlsContainer" type="HBoxContainer" parent="PathfindingButtons/CreepMovementContainer" unique_id=1667354765]
+layout_mode = 2
+
+[node name="CGMLeft" type="Button" parent="PathfindingButtons/CreepMovementContainer/CreepMovementControlsContainer" unique_id=1847671572]
+layout_mode = 2
+text = "Left"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PathfindingButtons/CreepMovementContainer/CreepMovementControlsContainer" unique_id=1575303699]
+layout_mode = 2
+
+[node name="CGMUp" type="Button" parent="PathfindingButtons/CreepMovementContainer/CreepMovementControlsContainer/VBoxContainer" unique_id=213484450]
+layout_mode = 2
+text = "Up"
+
+[node name="CGMDown" type="Button" parent="PathfindingButtons/CreepMovementContainer/CreepMovementControlsContainer/VBoxContainer" unique_id=1555874501]
+layout_mode = 2
+text = "Down"
+
+[node name="CGMRight" type="Button" parent="PathfindingButtons/CreepMovementContainer/CreepMovementControlsContainer" unique_id=1095283488]
+layout_mode = 2
+text = "Right"
+
+[node name="PathfindingInformationContainer" type="VBoxContainer" parent="." unique_id=598240577]
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 0
+
+[node name="CreepPositionLabel" type="Label" parent="PathfindingInformationContainer" unique_id=1200032878]
+layout_mode = 2
+text = "Creep Position: "
+
+[node name="CreepPositionOnGridLabel" type="Label" parent="PathfindingInformationContainer" unique_id=107020750]
+layout_mode = 2
+text = "Creep Positionon on Grid: "
+
+[node name="WaypointPositionLabel" type="Label" parent="PathfindingInformationContainer" unique_id=1249852560]
+layout_mode = 2
+text = "Destination Position: "
+
+[node name="WaypointPositionOnGridLabel" type="Label" parent="PathfindingInformationContainer" unique_id=1816027482]
+layout_mode = 2
+text = "Destination Position on Grid: "
+
+[node name="PathLabelContainer" type="ScrollContainer" parent="PathfindingInformationContainer" unique_id=178434476]
+custom_minimum_size = Vector2(256, 256)
+layout_mode = 2
+
+[node name="PathLabel" type="Label" parent="PathfindingInformationContainer/PathLabelContainer" unique_id=111662698]
+custom_minimum_size = Vector2(-1, -1)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Path: "
+autowrap_mode = 3
+
+[node name="PathOnGridLabelContainer" type="ScrollContainer" parent="PathfindingInformationContainer" unique_id=1614534922]
+custom_minimum_size = Vector2(256, 256)
+layout_mode = 2
+
+[node name="PathOnGridLabel" type="Label" parent="PathfindingInformationContainer/PathOnGridLabelContainer" unique_id=925258850]
+custom_minimum_size = Vector2(-1, -1)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Path on Grid: "
+autowrap_mode = 3
+
+[connection signal="button_up" from="PathfindingButtons/StartAlgorithmButton" to="." method="_on_start_algorithm_button_up"]
+[connection signal="button_up" from="PathfindingButtons/CreepGoToNextPositionButton" to="." method="_on_creep_go_to_next_position_button_up"]
+[connection signal="button_up" from="PathfindingButtons/ResetCreepPositionButton" to="." method="_on_reset_creep_position_button_up"]
+[connection signal="button_up" from="PathfindingButtons/TeleportCameraToCreepButton" to="." method="_on_teleport_camera_to_creep_button_up"]
+[connection signal="button_up" from="PathfindingButtons/TeleportCameraToWaypointButton" to="." method="_on_teleport_camera_to_waypoint_button_up"]
+[connection signal="button_up" from="PathfindingButtons/TeleportCreepToWaypointButton" to="." method="_on_teleport_creep_to_waypoint_button_up"]
+[connection signal="button_up" from="PathfindingButtons/CreepMovementContainer/CreepMovementControlsContainer/CGMLeft" to="." method="_on_cgm_left_button_up"]
+[connection signal="button_up" from="PathfindingButtons/CreepMovementContainer/CreepMovementControlsContainer/VBoxContainer/CGMUp" to="." method="_on_cgm_up_button_up"]
+[connection signal="button_up" from="PathfindingButtons/CreepMovementContainer/CreepMovementControlsContainer/VBoxContainer/CGMDown" to="." method="_on_cgm_down_button_up"]
+[connection signal="button_up" from="PathfindingButtons/CreepMovementContainer/CreepMovementControlsContainer/CGMRight" to="." method="_on_cgm_right_button_up"]
